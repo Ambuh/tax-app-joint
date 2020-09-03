@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f1f47f76-bccc-435a-a47b-866445ad81a4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/general/general.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/general/general.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/payrollManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/payrollManagment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/taxCalculatorManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/taxCalculatorManagment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/loader_scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/loader_scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/shared_lib.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/shared_lib.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/styles/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/styles/system.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/styles/system.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/template/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/template/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/template/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/template/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/24hourtax.msi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/24hourtax.wixobj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/24hourtax.wixpdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/24hourtax.wxs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/mysql.msi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/text" beforeDir="false" />
+    </list>
+    <list id="8e2134ce-08f1-48ec-860d-3adbbb622ef7" name="managing userpages" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="managing-userpages" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBowerSettings">
+    <node-interpreter value="project" />
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="ProjectId" id="1dIsxkLi8afHzstOVs5rRBNt4VV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../fullgospel" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\projects\node\sqlite\app\library\scripts\ipcrenderer\client" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="testfile" type="NodeJSConfigurationType" node-parameters="npm start" path-to-js-file="app/app.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="StructureViewFactory">
+    <option name="AUTOSCROLL_MODE" value="false" />
+    <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <branch name="master" repository="E:\projects\node\sqlite" />
+      <changelist id="f1f47f76-bccc-435a-a47b-866445ad81a4" name="Default Changelist" comment="" />
+      <created>1592124192501</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593066594570</updated>
+      <workItem from="1592124218335" duration="3787000" />
+      <workItem from="1592202716287" duration="16103000" />
+      <workItem from="1592222739038" duration="6128000" />
+      <workItem from="1592251733889" duration="1026000" />
+      <workItem from="1592295824688" duration="4560000" />
+      <workItem from="1592305352774" duration="7670000" />
+      <workItem from="1592317250509" duration="4369000" />
+      <workItem from="1592455061493" duration="11016000" />
+      <workItem from="1592482649873" duration="2741000" />
+      <workItem from="1592558411662" duration="3919000" />
+      <workItem from="1592633909707" duration="1265000" />
+      <workItem from="1592801188431" duration="516000" />
+      <workItem from="1592833950776" duration="270000" />
+      <workItem from="1592889652480" duration="748000" />
+      <workItem from="1592912510574" duration="6069000" />
+      <workItem from="1593066061580" duration="291000" />
+      <workItem from="1593066595130" duration="10282000" />
+      <workItem from="1593158360971" duration="289000" />
+      <workItem from="1593413374010" duration="544000" />
+      <workItem from="1593426754094" duration="4755000" />
+      <workItem from="1593498465522" duration="14332000" />
+      <workItem from="1593518686805" duration="28450000" />
+      <workItem from="1593844629780" duration="687000" />
+      <workItem from="1593845439595" duration="7319000" />
+      <workItem from="1594018982400" duration="3942000" />
+      <workItem from="1594034306517" duration="17294000" />
+      <workItem from="1594094570778" duration="16084000" />
+      <workItem from="1594197459270" duration="5668000" />
+      <workItem from="1594277503559" duration="3989000" />
+      <workItem from="1594288184321" duration="5938000" />
+      <workItem from="1594455508340" duration="3966000" />
+      <workItem from="1594628053715" duration="746000" />
+      <workItem from="1594629972250" duration="1093000" />
+      <workItem from="1594631633801" duration="11327000" />
+      <workItem from="1594793540706" duration="13517000" />
+      <workItem from="1594881045953" duration="1208000" />
+      <workItem from="1594969396457" duration="4886000" />
+      <workItem from="1595051512275" duration="2628000" />
+      <workItem from="1595224216782" duration="4042000" />
+      <workItem from="1595237656114" duration="5202000" />
+      <workItem from="1595307488330" duration="2840000" />
+      <workItem from="1595322208992" duration="14762000" />
+      <workItem from="1595341884615" duration="8743000" />
+      <workItem from="1595395395141" duration="9816000" />
+      <workItem from="1595575903518" duration="5817000" />
+      <workItem from="1595935353312" duration="2206000" />
+      <workItem from="1595938876646" duration="3691000" />
+      <workItem from="1596001099118" duration="821000" />
+      <workItem from="1596207793429" duration="9435000" />
+      <workItem from="1596262932164" duration="1029000" />
+      <workItem from="1596264777092" duration="8018000" />
+      <workItem from="1596429373304" duration="2926000" />
+      <workItem from="1596544929756" duration="4008000" />
+      <workItem from="1596602008261" duration="731000" />
+      <workItem from="1596613499471" duration="56000" />
+      <workItem from="1597471175718" duration="2818000" />
+      <workItem from="1597647731879" duration="36000" />
+      <workItem from="1597731373154" duration="28000" />
+      <workItem from="1597896249617" duration="689000" />
+      <workItem from="1598508873106" duration="20463000" />
+      <workItem from="1598608261322" duration="78000" />
+      <workItem from="1598686049651" duration="7223000" />
+      <workItem from="1598757668030" duration="18000" />
+    </task>
+    <task id="LOCAL-00001" summary="managing userpages">
+      <branch name="master" repository="E:\projects\node\sqlite" original="true" />
+      <branch name="managing-userpages" repository="E:\projects\node\sqlite" />
+      <changelist id="8e2134ce-08f1-48ec-860d-3adbbb622ef7" name="managing userpages" comment="" />
+      <created>1593066354901</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1593066594570</updated>
+      <workItem from="1593066357937" duration="234000" />
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="137" y="24" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597480327221">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="137" y="24" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597480327221" />
+    <state x="137" y="24" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1592917775927" />
+    <state x="-1087" y="312" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595579779006">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state x="-1087" y="312" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1595579779006" />
+    <state x="463" y="74" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1592917768897">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="463" y="74" key="#com.intellij.ide.macro.MacrosDialog/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1592917768897" />
+    <state x="-1086" y="236" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1596264165104">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state x="-1086" y="236" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1596264165104" />
+    <state x="-1110" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596282198494">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state x="-1110" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1596282198494" />
+    <state x="550" y="119" width="748" height="499" key="EnvironmentVariablesDialog" timestamp="1597480326040">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="550" y="119" width="748" height="499" key="EnvironmentVariablesDialog/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597480326040" />
+    <state x="504" y="192" key="FileChooserDialogImpl" timestamp="1598757689050">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1598608337168" />
+    <state x="-1060" y="265" key="FileChooserDialogImpl/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631628080" />
+    <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1598757689050" />
+    <state width="1323" height="181" key="GridCell.Tab.0.bottom" timestamp="1597481379092">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="181" key="GridCell.Tab.0.bottom/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597481379092" />
+    <state width="1637" height="274" key="GridCell.Tab.0.bottom/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631768294" />
+    <state width="1637" height="274" key="GridCell.Tab.0.bottom/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1594663937616" />
+    <state width="1323" height="181" key="GridCell.Tab.0.center" timestamp="1597481379090">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="181" key="GridCell.Tab.0.center/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597481379090" />
+    <state width="1637" height="274" key="GridCell.Tab.0.center/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631768294" />
+    <state width="1637" height="274" key="GridCell.Tab.0.center/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1594663937616" />
+    <state width="1323" height="181" key="GridCell.Tab.0.left" timestamp="1597481379089">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="181" key="GridCell.Tab.0.left/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597481379089" />
+    <state width="1637" height="274" key="GridCell.Tab.0.left/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631768294" />
+    <state width="1637" height="274" key="GridCell.Tab.0.left/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1594663937616" />
+    <state width="1323" height="181" key="GridCell.Tab.0.right" timestamp="1597481379090">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="181" key="GridCell.Tab.0.right/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597481379090" />
+    <state width="1637" height="274" key="GridCell.Tab.0.right/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631768294" />
+    <state width="1637" height="274" key="GridCell.Tab.0.right/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1594663937616" />
+    <state width="196" height="457" key="HiddenNamespacesPopup" timestamp="1595317511770">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="196" height="457" key="HiddenNamespacesPopup/0.0.1366.738@0.0.1366.738" timestamp="1595317511770" />
+    <state x="184" y="14" key="SettingsEditor" timestamp="1594054407211">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="184" y="14" key="SettingsEditor/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1594054407211" />
+    <state x="444" y="200" key="SimpleOpenTaskDialog" timestamp="1593066357377">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="444" y="200" key="SimpleOpenTaskDialog/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1593066357377" />
+    <state x="-1234" y="120" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1593535599343">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state x="-1234" y="120" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1593535599343" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1595339801224">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1595339801224" />
+    <state x="-1263" y="228" key="run.anything.popup" timestamp="1595323264202">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state x="-1263" y="228" key="run.anything.popup/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1595323264202" />
+    <state x="339" y="165" key="run.anything.popup/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1593067021067" />
+    <state x="339" y="165" key="run.anything.popup/0.0.1366.738@0.0.1366.738" timestamp="1592327194614" />
+    <state x="-1177" y="220" width="672" height="678" key="search.everywhere.popup" timestamp="1595418406451">
+      <screen x="-1680" y="0" width="1680" height="1020" />
+    </state>
+    <state x="-1177" y="220" width="672" height="678" key="search.everywhere.popup/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1595418406451" />
+    <state x="409" y="159" width="672" height="491" key="search.everywhere.popup/0.0.1366.738/-1680.0.1680.1020@0.0.1366.738" timestamp="1594042369724" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/app/library/scripts/ipcrenderer/small/incomeManagment.js</url>
+          <line>130</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/inventoryManagement.js</url>
+          <line>60</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand>
+      <path>
+        <item name="sqlite" type="b2602c69:ProjectViewProjectNode" />
+        <item name="sqlite" type="462c0819:PsiDirectoryNode" />
+      </path>
+    </expand>
+    <select />
+  </component>
+</project>

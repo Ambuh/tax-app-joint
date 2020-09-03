@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+    <title>24Hour Tax</title>
+    <link rel="stylesheet" href="../../library/fonts/fonts.css">
+    <link rel="stylesheet" href="../../library/fonts/css/fontawesome-all.css">
+    <link rel="stylesheet" href="../../library/styles/system.css">
+    <link rel="stylesheet" href="../../library/styles/main.css">
+
+</head>
+<body style="background: rgba(0,0,0,0)" class="app-left app-full app-pointer">
+<div id="popup-window" style="display: none;background: rgba(255,255,255,0.89)">
+  <div class="app-spin"></div>
+</div>
+    <form class="app-left app-full app-white app-default-shape" style="overflow: hidden">
+        <common-controls class="app-top">
+            <i class="far fa-times-circle app-text-red app-right " id="close" style="margin-top: 5px"></i>
+            <i class="fa fa-minus-circle app-text-gray app-right " id="mini" style="margin-right: 10px;margin-top: 5px"></i>
+        </common-controls>
+        <header class="app-default-background app-default-font app-center app-padding app-margin-bottom app-draggable" style="font-size: 24px">24Hour Tax</header>
+
+        <h5 class="app-text-center app-left app-border-bottom app-full">Database Configuration</h5>
+
+        <div class="app-left app-full app-margin-bottom">
+            <label class="app-width-30 app-left app-padding-left app-padding-top">Database Name</label> <input class=" app-margin-left app-round app-border app-padding app-left app-width-60">
+        </div>
+        <div class="app-left app-full app-margin-bottom">
+            <label class="app-width-30 app-left app-padding-left app-padding-top">Database User</label> <input class=" app-margin-left app-round app-border app-padding app-left app-width-60">
+        </div>
+        <div class="app-left app-full app-margin-bottom">
+            <label class="app-width-30 app-left app-padding-left app-padding-top">Database Password</label> <input class=" app-margin-left app-round app-border app-padding app-left app-width-60">
+        </div>
+        <div class="app-left app-full app-margin-bottom">
+            <label class="app-width-30 app-left app-padding-left app-padding-top">Database Host</label> <input class=" app-margin-left app-round app-border app-padding app-left app-width-60">
+        </div>
+        <div class="app-left app-full app-margin-bottom">
+            <label class="app-width-30 app-left app-padding-left app-padding-top">Database Port</label> <input class=" app-margin-left app-round app-border app-padding app-left app-width-60">
+        </div>
+
+        <div class="app-left app-full">
+            <label class="app-width-30 app-right app-padding app-margin app-button-shape app-default-background app-hover-lime" id="update">Update Database</label>
+            <label class="app-width-30 app-right app-padding app-margin app-button-shape app-light-green app-hover-green" id="test">Test Connection</label>
+        </div>
+    </form>
+  <script>
+      const {ipcRenderer,remote}=require('electron');
+
+
+      document.getElementById('close').addEventListener('click',function (){
+          remote.getCurrentWindow().close();
+      });
+
+      document.getElementById('update').addEventListener('click',function (){
+          document.getElementById('popup-window').style.display='block';
+          testConnection();
+      });
+      const testConnection=async function (){
+          const database=remote.require("mysql");
+
+          const connection=database.createConnection({
+              host:'localhost',
+              user:'root',
+              password:'',
+              database:'tax',
+          });
+
+          connection.connect(function (err){
+             if(err){
+                 document.getElementById('popup-window').innerHTML="<div id='processing' class='app-padding app-red'>Unable to Connect Please Install or Enable Mysql</div>";
+             } else{
+                 document.getElementById('popup-window').innerHTML="<div id='processing' class='app-padding app-green'>Succesfull</div>";
+             }
+          });
+
+      }
+  </script>
+</body>

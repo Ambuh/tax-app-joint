@@ -1,0 +1,42 @@
+{
+  "name": "24HourTax",
+  "productName": "24Hour Tax app",
+  "description": "24Hour tax =>Starter for your electron + sqlite application+mysql application",
+  "version": "1.0.0",
+  "author": "ambuhmwangi",
+  "copyright": "© 2020, devAmbrose Ltd.",
+  "homepage": "http://example.com",
+  "license": "MIT",
+  "main": "app/app.js",
+  "build": {
+    "appId": "com.example.electron-24hourapp-sqlite-mysql",
+    "files": [
+      "app/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "npmRebuild": false
+  },
+  "scripts": {
+    "postinstall": "run install-app-deps",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "build",
+    "build": "npm run build-windows",
+    "build-windows": " electron-packager .  --overwrite"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.3",
+    "electron-packager": "^14.2.1",
+    "electron-reload": "^1.5.0",
+    "jquery": "^3.5.1",
+    "mysql": "^2.18.1",
+    "socket.io": "^2.3.0",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "electron": "^5.0.6",
+    "electron-builder": "^21.0.15",
+    "electron-wix-msi": "^2.2.0"
+  }
+}

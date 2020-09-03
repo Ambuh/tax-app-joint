@@ -1,0 +1,12 @@
+@font-face{
+    font-family: basefont;
+    src:url('BellotaText-Regular.ttf')
+}
+@font-face{
+    font-family: fantasyfont;
+    src: url('Shanti-Regular.ttf');
+}
+@font-face{
+    font-family: containerFont;
+    src: url('Merienda-Regular.ttf');
+}
