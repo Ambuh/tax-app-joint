@@ -32,39 +32,8 @@ function loadModules(moduleType=1){
     }
 }
 
-window.onload=()=> {
+window.onload=()=>showClientSystem();
 
-    database.selectQuery(['*'],'sessions').then(table=>{
-        let current=null;
-        let session=null;
-
-        for(let i=0;i<table.length;i++){
-            if(table[i].status =='1'){
-
-                current=table[i].user_id;
-                session=table[i];
-                i=table.length;
-            }
-        }
-
-
-        database.selectQuery(['*'],'frontend_users','where id='+current).then(rows=>{
-
-
-           if(rows ==undefined || rows.length==0){
-               renderRegistration();
-           }else{
-               handlePageDataInsertion(rows[0],session.package);
-
-           }
-
-        });
-    });
-};
-
-const sendCommunication=function(){
-
-}
 const getDashboardContent=(att,fun)=>{//TODO ;make this function async and load predefined packages
     const obj= new objectString();
 

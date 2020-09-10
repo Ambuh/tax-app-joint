@@ -1,61 +1,109 @@
 const _loadMainMenus=package=>{
-    let cont = new objectString();
+        let cont = new objectString();
 
-        let menus=[ ['dash','dashboard','<img src="images/dash.png">'],['calc','calculator','<img src="images/calculator.png">'],
-            ['inc','income','<img src="images/income.png">'],['expen','Expenses','<img src="images/expen.png">'],['proj','project Management','<img src="images/project.png">'],['inventory','inventory','<img src="images/invent.png">'],['reports','Reports','<img src="images/report.png">'],['manage','User Management','<img src="images/user.png">'],['payroll','Payroll','<img src="images/payroll.png">'],['sets','settings','<i class=\'fas fa-cogs app-margin-right\'></i>'] ];
+        let menus=null;
+        if(package.package=="1"){
+            menus=[
+                ['dash','dashboard','<img src="images/dash.png">'],
+                ['item','Itemization','<img src="images/dash.png">']
+            ]
+        }else if(package.package =="2"){
+            menus =[ ['dash','dashboard','<img src="images/dash.png">'],['calc','calculator','<img src="images/calculator.png">'],
+                ['inc','income','<img src="images/income.png">'],['expen','Expenses','<img src="images/expen.png">'],['proj','project Management','<img src="images/project.png">'],['inventory','inventory','<img src="images/invent.png">'],['reports','Reports','<img src="images/report.png">'],['manage','User Management','<img src="images/user.png">'],['payroll','Payroll','<img src="images/payroll.png">'],['sets','settings','<i class=\'fas fa-cogs app-margin-right\'></i>'] ];
+        }else if(package.package =="3"){
 
-        /*if(package !=1){
-          menus=[ ['dashUi','dashboard','<img src="images/dash.png">'],['calc','calculator','<img src="images/calculator.png">'],
-            ['inc','income','<img src="images/income.png">'],['expen','Expenses','<img src="images/expen.png">'],['proj','project Management','<img src="images/project.png">'],['inventory','inventory','<img src="images/invent.png">'],['reports','Reports','<img src="images/report.png">'],['manage','User Management','<img src="images/user.png">'],['payroll','Payroll','<img src="images/payroll.png">'],['sets','settings','<i class=\'fas fa-cogs app-margin-right\'></i>'] ];
-
-
-         */
-
-
-    for(let i=0;i<menus.length;i++)
+        }
+        for(let i=0;i<menus.length;i++)
             cont.generalTags("<div class='menu app-default-font app-padding app-margin-top app-white app-default-shape app-pointer' id='"+menus[i][0]+"'>"+menus[i][2]+" "+ucFirst(menus[i][1])+"</div>");
 
         document.getElementById('menu-section').innerHTML=cont.toString();
         _microIndividualFunctions();
-        /*if(package ==1){
-            _microIndividualFunctions();
-        }else if(package==2){
-            _microSmallBusinessFunctions();
-        }
-
-         */
-
-},
+    },
     _microIndividualFunctions=_=>{
 
-     document.querySelector("#calc").addEventListener('click',()=>{loadMainFunctions(loadGeneralCalculatorMenusLayout,loadGeneralCalculatorLayout,calculatorFunctions)});
+        const calculatorButton=document.querySelector("#calc");
 
-     document.querySelector("#payroll").addEventListener('click',()=>{ loadMainFunctions(generalExpensesMenus,generalExpenseslayout,payrollManagement)});
+        if(calculatorButton)
+            calculatorButton.addEventListener('click',(e)=>{loadMainFunctions(loadGeneralCalculatorMenusLayout,loadGeneralCalculatorLayout,calculatorFunctions,e)});
 
-     document.querySelector("#expen").addEventListener('click',()=>{loadMainFunctions(loadExpensesMenu,loadExpensesLayout,expensesFunctions)});
+        const expenseButton = document.querySelector("#payroll");
 
-     document.getElementById("dash").addEventListener('click',()=>{getDashboardContent();$("#menu-cont").html(" ") });
+        if(expenseButton)
+            expenseButton.addEventListener('click',(e)=>{ loadMainFunctions(generalExpensesMenus,generalExpenseslayout,payrollManagement,e)});
 
-     document.getElementById("inc").addEventListener('click',()=> {loadMainFunctions(loadIncomeMenu,loadIncomeLayout,incomeMicroFunctions);});
+        const expenseLoaderButton = document.querySelector("#expen");
 
-     document.getElementById('reports').addEventListener('click',()=>{loadMainFunctions(loadReportsMenu,loadGeneralReportsLayout,reportsMicroFunctions)});
+        if(expenseLoaderButton)
+            expenseLoaderButton.addEventListener('click',(e)=>{loadMainFunctions(loadExpensesMenu,loadExpensesLayout,expensesFunctions,e)});
 
-     document.getElementById('user_profile').addEventListener('click',()=>{loadMainFunctions(loadUserProfileMenu,loadUserProfile,userMicroFunctions)});
 
-     document.getElementById('log_out').addEventListener('click',()=>{ deleteUserSession()});
+        const dashButton = document.getElementById("dash");
 
-     document.getElementById('inventory').addEventListener('click',()=>{loadMainFunctions(loadInventoryMenu,loadInventoryLayout,inventoryMicroFunctions)})
+        if(dashButton)
+            dashButton.addEventListener('click',(e)=>{
+                getDashboardContent();$("#menu-cont").html(" ")
 
-},
+                $(e).fadeOut('slow');
+            });
+
+
+        const incomeButton = document.getElementById("inc");
+
+        if(incomeButton)
+            incomeButton.addEventListener('click',()=> {loadMainFunctions(loadIncomeMenu,loadIncomeLayout,incomeMicroFunctions);});
+
+        const reportButton = document.getElementById('reports');
+
+        if(reportButton)
+            reportButton.addEventListener('click',()=>{loadMainFunctions(loadReportsMenu,loadGeneralReportsLayout,reportsMicroFunctions)});
+
+
+        const userProfileButton = document.getElementById('user_profile');
+
+        if(userProfileButton)
+            userProfileButton.addEventListener('click',()=>{loadMainFunctions(loadUserProfileMenu,loadUserProfile,userMicroFunctions)});
+
+        const logoutButton = document.getElementById('log_out');
+
+        if(logoutButton)
+            logoutButton.addEventListener('click',()=>{
+                let popup=confirmAction(
+                    "Do you wish to continue",
+                    function () {
+
+                        const {ipcRenderer}=require("electron");
+
+                        console.log("Is working");
+                        ipcRenderer.send("dropSession");
+
+                    },function () {
+                    });
+            });
+
+
+        const inventoryButton = document.getElementById('inventory');
+
+        if(inventoryButton)
+            inventoryButton.addEventListener('click',()=>{loadMainFunctions(loadInventoryMenu,loadInventoryLayout,inventoryMicroFunctions)})
+
+        const itemizationButton=document.getElementById("item");
+        if(itemizationButton)
+            itemizationButton.addEventListener('click',function (){
+                const itemClass= new Itemization();
+
+                itemClass.render();
+
+            });
+    },
     _microSmallBusinessFunctions=_=>{
-         document.getElementById('inc').addEventListener('click',function () {
-             loadMainFunctions(loadIncomeMenu,loadIncomeGeneralLayout,loadIncomeFunction);
-         });
+        document.getElementById('inc').addEventListener('click',function () {
+            loadMainFunctions(loadIncomeMenu,loadIncomeGeneralLayout,loadIncomeFunction);
+        });
     }
 
 
 function loadMainFunctions(menuCont,bodyCont,cbk){
-    //const menuArea=document.querySelector("#menu-section");
+
 
     const bodyContainer=document.querySelector("#body-cont");
 
@@ -92,11 +140,7 @@ function alert(text){
     document.getElementById('ok').addEventListener('click',function () {
         closePopUp();
     });
-    window.onclick=function (e) {
-      if(e.target.id=='popup-window'){
-          closePopUp();
-      }
-    }
+
     function closePopUp() {
         pop.style.display='none';
     }

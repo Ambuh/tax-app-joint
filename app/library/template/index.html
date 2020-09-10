@@ -6,9 +6,12 @@
       <link rel="stylesheet" href="../../library/fonts/css/fontawesome-all.css">
       <link rel="stylesheet" href="../../library/styles/system.css">
       <link rel="stylesheet" href="../../library/styles/main.css">
+      <script>window.$ = window.jQuery = require('jquery');</script>
       <script src="../scripts/loader_scripts.js"></script>
       <script src="../scripts/shared_lib.js"></script>
-
+      <script src="../scripts/general/general.js"></script>
+      <script src="../scripts/renderer.js"></script>
+      <script src="./main.js"></script>
   </head>
   <style>
       #popup-window{
@@ -26,20 +29,9 @@
           border-radius: 10px;
        }
   </style>
-  <body style="width: 100vw;height: 100vh;float: left;padding:0px;border: 0px;margin:0px" onload="">
-  <div id="popup-window">
-      <div class="app-white app-padding app-left" id="processing">
-          Processing...
-      </div>
-  </div>
-  <img src="images/wall.jpg" style="float: left;width: 100%;height: 100%"  />
-  <div id="forms-container" class="app-white"></div>
-  <div id="toast"></div>
-    <script>window.$ = window.jQuery = require('jquery');</script>
-    <script src="../scripts/general/general.js"></script>
-    <script src="./main.js"></script>
-    <script src="../scripts/renderer.js"></script>
-
+  <body style="width: 100vw;height: 100vh;float: left;padding:0px;border: 0px;margin:0px" id="body">
+  <div id="popup-window" style="display: grid;place-items: center">
+      <div class="app-white app-padding app-left" id="processing" >Processing...</div></div><div id="forms-container" ></div><div id="toast" class="app-hide"></div>
 
   </body>
 </html>

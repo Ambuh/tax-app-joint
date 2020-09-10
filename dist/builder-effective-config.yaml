@@ -1,0 +1,15 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.example.electron-24hourapp-offline-app
+files:
+  - filter:
+      - app/**/*
+      - node_modules/**/*
+      - package.json
+npmRebuild: false
+productName: 24Hour Tax Software
+nsis:
+  allowToChangeInstallationDirectory: true
+  oneClick: false
+electronVersion: 5.0.6

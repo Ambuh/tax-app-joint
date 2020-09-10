@@ -1,4 +1,50 @@
 
+class ExpenseManagement{
+    constructor() {
+
+    }
+    loadExpensesLayout(){
+        const cont= new objectString();
+
+        cont.generalTags("<h3 class='app-padding-left app-full app-left app-border-bottom app-margin-bottom'>Expenses </h3>");
+
+        cont.generalTags("<div class='app-right app-full app-border-bottom app-round app-margin-top'> <input type='text' placeholder='search' class='app-right app-border app-margin app-round' > </div>");
+
+        database.selectQuery(['*'],'py_expenses').then(expenses=>{
+            loadExpensesTable(expenses);
+
+            let totalExpenses=0;
+            for(let i=0;i<expenses.length;i++){
+                totalExpenses+=parseInt(expenses[i].cost);
+            }
+            const report =new objectString();
+
+            report.generalTags("<div class='app-full app-left app-text-blue app-border-bottom app-border-top'> <b class='app-half app-left'>Overall Expenses</b><p class='app-left app-half app-text-left'>$ "+totalExpenses+"</p></div>");
+
+            document.getElementById('report').innerHTML=report.toString();
+        });
+        cont.generalTags("<div class='app-left app-full' id='table-container'></div>");
+
+        cont.generalTags("<div class='app-right  app-margin' id='report'></div>");
+
+        return cont.toString();
+    }
+    loadExpensesMenu(){
+        const cont = new objectString();
+
+        cont.generalTags("<div class='app-button-shape app-default-background top-menu' id=''><img src='images/expen/altsettings.png'><label class='app-padding-top app-left'> Configure</label></div>");
+
+        cont.generalTags("<div class='app-button-shape app-default-background top-menu' id='newExpense'><img src='images/expen/edit1.png'><label class='app-padding-top app-left'>New Expense</label></div>");
+
+        cont.generalTags("<div class='app-button-shape app-default-background top-menu' id='viewExpense'><img src='images/expen/view.png'><label class='app-padding-top app-left'>View Expenses</label></div>");
+
+        cont.generalTags("<div class='app-button-shape app-default-background top-menu' id=''><img src='images/expen/attach.png'><label class='app-padding-top app-left'>Attach to Assets</label></div>");
+
+        cont.generalTags("<div class='app-button-shape app-default-background top-menu' id=''><img src='images/expen/attach1.png'><label class='app-padding-top app-left'>Attach to Liability</label></div>");
+
+        return cont.toString();
+    }
+}
 /*--FUNCTIONS FOR HANDLING EXPENSES */
 
 const loadExpensesLayout=_=>{

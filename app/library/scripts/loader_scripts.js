@@ -252,21 +252,23 @@ const promptDelete=(cont,cbk)=>{
 function confirmAction(/*message*/ message,/*confirm_action*/ confirmAction,/*declineAction*/ declineAction){
     const popWindow=$("#popup-window");
 
-    popWindow.fadeIn('fast',function(){
+    popWindow.removeClass('app-hide').fadeIn('fast',function(){
         popWindow.css('display','grid').html(promptUI(message));
         confirmActionFunctions();
     });
 
-    const confirmActionFunctions=function (){
+    function confirmActionFunctions(){
         window.onclick=function(e){
             if(e.target.id=='#popup-window'){
                 popWindow.fadeOut().html(" ");
             }
         }
         $("#cont").unbind().click(function(){
-           popWindow.fadeOut('slow');
+            confirmAction();
+           //popWindow.fadeOut('slow');
         });
         $("#can").unbind().click(function (){
+            declineAction();
             popWindow.fadeOut('fast')
         })
     }
@@ -280,9 +282,9 @@ function confirmAction(/*message*/ message,/*confirm_action*/ confirmAction,/*de
 
         cont.generalTags("<div class='app-full app-left'>");
 
-        cont.generalTags("<div class='app-right app-round app-margin-right app-margin-left app-green app-hover-light-gray app-pointer' id='cancel'>Cancel</div>");
+        cont.generalTags("<div class='app-right app-round app-margin-right app-margin-left app-green app-hover-light-gray app-pointer app-button-shape' id='cancel'>Cancel</div>");
 
-        cont.generalTags("<div class='app-right app-round app-red app-hover-light-blue app-pointer' id='cont'>Continue</div>");
+        cont.generalTags("<div class='app-right app-round app-red app-hover-light-blue app-pointer app-button-shape' id='cont'>Continue</div>");
 
         cont.generalTags("</div>");
 

@@ -1,4 +1,68 @@
+class ReportManagement{
+    constructor(pack) {
 
+    }
+    loadReportsMenu(){
+        const cont= new objectString();
+
+        cont.generalTags("<div class='app-button-shape app-light-blue top-menu' id='genReports'><img src='images/reports/report.png'><label class='app-padding-top app-left app-text-white'>Reports</label></div>");
+
+        cont.generalTags("<div class='app-button-shape top-menu ' id='states'><img src='images/reports/state.png'><label class='app-padding-top app-left'>Statements</label></div>");
+
+        cont.generalTags("<div class='app-button-shape top-menu' id='mainReports'><img src='images/reports/general.png'><label class='app-padding-top app-left'>General Reports</label></div>");
+
+        return cont.toString();
+    }
+    loadGeneralReportsLayout(){
+        const cont= new objectString();
+
+        cont.generalTags("<h3 class='app-left app-padding-left app-border-bottom app-full '>Reports</h3>");
+
+        cont.generalTags("<label class='app-left app-margin-right app-padding'>Generate Ratio</label>");
+
+        cont.generalTags("<select class='app-border app-left app-round app-padding' id='selectReports'>");
+
+        cont.generalTags("<option value='1'>Ratio analysis</option>");
+
+        cont.generalTags("<option value='2'>Quick Ratio</option>");
+
+        cont.generalTags("<option value='3'>Current Ratio</option>");
+
+        cont.generalTags("<option value='4'>Return On Equity </option>");
+
+        cont.generalTags("<option value='5'>Return On Assets</option>");
+
+        cont.generalTags("</select>");
+
+        cont.generalTags("<div class='app-left app-full app-padding' id='reports-container'></div>");
+        return cont.toString();
+    }
+    loadGeneralStatementsReportLayout(){
+        const cont=new objectString();
+
+        cont.generalTags("<h3 class='app-left app-padding-left app-border-bottom app-full '>Statements</h3>");
+
+        cont.generalTags("<label class='app-left app-margin-right app-padding'>Generate Statements</label>");
+
+        cont.generalTags("<select class='app-border app-left app-round app-padding' id='selectReports'>");
+
+        cont.generalTags("<option value='10'>Financial Statement</option>");
+
+        cont.generalTags("<option value='11'>Balance Sheet</option>");
+
+        cont.generalTags("<option value='12'>Income Statement</option>");
+
+        cont.generalTags("<option value='13'>Cash Flow Statement</option>");
+
+        cont.generalTags("<option value='5'>Return On Assets</option>");
+
+        cont.generalTags("</select>");
+
+        cont.generalTags("<div class='app-left app-full app-padding' id='reports-container'></div>");
+
+        return cont.toString();
+    }
+}
 const loadReportsMenu=_=>{
     const cont= new objectString();
 

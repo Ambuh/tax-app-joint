@@ -199,14 +199,21 @@ body,html{
                     font-weight: bold;
                 }.app-display-flex {
                      display: flex;
-                 }
+                 }.top-menu{
+    font-size: 12px;
+                                                                                                                                                                           }
 .flex-column{
     flex-direction: column;
 }
 #forms-container{
     position: fixed;
-    width: 50%;height: 100%;
-
+    width: 50%;
+    display: grid;
+    place-items: center;
+    left :20%;
+    top:5vh;
+    height:auto;
+    background-color: rgba(255,255,255,0.6);
 }
 .minor-menus{
     padding:1px 5px;
@@ -254,25 +261,26 @@ body,html{
               border-bottom: 1px solid black
           }ul{
                list-style:none;
-           }.app-date{
-                border-radius: 4px !important;
+           }
+.app-date{
+    border-radius: 4px !important;
 
-                background-color: white;
-                background-image: url('images/ui.png');
-                background-position: left;
-                background-repeat: no-repeat;
-                padding-left:20px !important;
-            }.app-search{
-                 border-radius: 4px;
-                 background-color: white;
-                 background-image: url('images/search.png');
-                 background-position: left;
-                 background-repeat: no-repeat;
-                 padding-left:20px
+    background-color: white;
+    background-image: url('images/ui.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left:20px !important;
+}.app-search{
+     border-radius: 4px;
+     background-color: white;
+     background-image: url('images/search.png');
+     background-position: left;
+     background-repeat: no-repeat;
+     padding-left:20px
 
-             }.app-money{
-                  color: #d6823d;
-              }
+ }.app-money{
+      color: #d6823d;
+  }
 #toast{
     position: fixed;
     width:100%;
@@ -281,4 +289,19 @@ body,html{
     z-index: 100;
     display: grid;
     place-items: center;
-}
+}#app-fluid-container{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 8% 8% 78%;
+    grid-gap: 1%;
+ }#app-fluid-container #menu-section{
+    grid-row: span 1;
+    padding-top: 0.5%;
+   }#app-fluid-container #menu-section .menu{
+      float: left;
+      width: 10%;
+      margin:3px !important;
+      box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
+       }#app-fluid-container #menu-section .menu:first-child{
+           margin-left:10% !important
+               }

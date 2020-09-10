@@ -1,4 +1,63 @@
+class TaxCalculatorManagement{
+    constructor() {
+    }
 
+    loadGeneralCalculatorLayout(){
+        const cont= new objectString();
+
+        cont.generalTags("<h3 class='app-left app-full app-padding-left app-border-bottom'>Tax Preparation</h3>");
+
+        cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background app-text-underline'>Basic Info</div>");
+
+        cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background'>Load Income</div>");
+
+        cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background'>Deductions</div>");
+
+        cont.generalTags("<div class='app-padding-left app-padding app-left  app-margin-bottom app-default-background'>Credit</div>");
+
+        cont.generalTags("<div class='app-padding-left app-padding app-left  app-margin-bottom app-default-background'>Results</div>");
+
+        cont.generalTags("<div class='app-left app-full'>");
+
+        cont.generalTags("<div class='app-left'>");
+
+        cont.generalTags("<label class='app-left app-padding app-margin-left'>Select States</label>")
+
+        cont.generalTags("<select class='app-round app-border app-padding app-margin-left'>");
+
+        const states=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','kentucky','Loisiana','Maine',
+            'MaryLand','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska',' Nevada','New Hampshire','New Jersey','New Mexico','New York',
+            'North Carolina','North Dakota','Ohio',"Oklahoma",'Oregon','Pennsylvania','rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
+            'Washington','West Virginia','Wisconsin','Wyoming'];
+
+        states.forEach(state=>cont.generalTags("<option>"+state+"</option>"));
+
+        cont.generalTags("</select>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("<div id='tax-holder-container' class='app-left app-full app-padding-top'>");
+
+        cont.generalTags(loadGeneralCalculatorLayoutPersonalDetails())
+
+        cont.generalTags("</div>");
+        return cont.toString();
+
+    }
+    loadGeneralCalculatorMenusLayout(){
+        const cont= new objectString();
+
+        cont.generalTags("<div class='app-button-shape app-default-background'><i class='fas fa-cogs'></i> Settings</div>");
+
+        cont.generalTags("<div class='app-button-shape app-default-background'><i class='fas fa-calendar'></i> Tax Preparation</div>");
+
+        return cont.toString();//TODO is this correct need to connect with the usa.government api to fetch taxation
+    }
+}
 /* ---TAX CALCULATOR MODULE START--*/
 const  loadGeneralCalculatorLayout=()=>{
     const cont= new objectString();

@@ -1,31 +1,31 @@
 function renderRegistration(){
-    const cont=new objectString();
+       const cont=new objectString();
 
-    cont.generalTags('<form class="app-left app-full">');
+        cont.generalTags('<form class="app-left app-full">');
 
-    cont.generalTags(' <header class="app-default-background app-default-font app-center app-padding app-margin-bottom" style="font-size: 24px">Registration</header>');
+        cont.generalTags(' <header class="app-default-background app-default-font app-center app-padding app-margin-bottom" style="font-size: 24px">24Hour Tax <small>User Registration</small></header>');
 
-    cont.generalTags(`<div class="app-padding app-left app-full app-margin-bottom" > <label class="app-left  app-full">FirstName</label>   <input  id="first" type ='text' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(`<div class="app-padding-left app-left app-full" > <label class="app-left  app-full" style="margin-bottom: 5px">FirstName</label>   <input  id="first" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(`<div class="app-padding-left app-left app-full app-margin-bottom"><label class="app-left  app-full">Surname</label><input  id="sur" type ='text' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(`<div class="app-padding-left app-left app-full "><label class="app-left  app-full" style="margin-bottom: 5px">Lastname</label><input  id="sur" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(` <div class="app-padding-left app-left app-full app-margin-bottom"><label class="app-left  app-full">Email Address</label><input  id='email' type='text' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(` <div class="app-padding-left app-left app-full"><label class="app-left  app-full" style="margin-bottom: 5px">Email Address</label><input  id='email' type='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(` <div class="app-padding-left app-left app-full app-margin-bottom"><label class="app-left  app-full">Social Security Number</label><input  id="ssn" type ='text' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(` <div class="app-padding-left app-left app-full"><label class="app-left  app-full" style="margin-bottom: 5px">Social Security Number</label><input  id="ssn" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(`<div class="app-padding-left app-left app-full app-margin-bottom"><label class="app-left  app-full">D.O.B</label><input  id='dob' type ='text' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(`<div class="app-padding-left app-left app-full"><label class="app-left  app-full" style="margin-bottom: 5px">D.O.B</label><input  id='dob' type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(` <div class="app-padding-left app-left app-full app-margin-bottom"><label class="app-left  app-full">Password</label><input  id="pass" type='password' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(` <div class="app-padding-left app-left app-full"><label class="app-left  app-full" style="margin-bottom: 5px">Password</label><input  id="pass" type='password' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(` <div class="app-padding-left app-left app-full app-margin-bottom"><label class="app-left  app-full">Confirm Password</label><input  id="c_pass" type='password' class=" app-padding app-round app-width-90 app-border "></div>`);
+        cont.generalTags(` <div class="app-padding-left app-left app-full"><label class="app-left  app-full" >Confirm Password</label><input  id="c_pass" type='password' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-    cont.generalTags(` <div class="app-padding app-left app-full"><button id="register" class="app-right app-round app-border app-blue app-hover-green app-pointer app-padding " style="margin-right: 4%">Submit</button></div></form>`);
+        cont.generalTags(` <div class="app-padding app-left app-full"><button id="register" class="app-right app-round app-border app-blue app-hover-green app-pointer app-padding" style="margin-right: 8%">Submit</button></div></form>`);
 
-    document.getElementById('forms-container').innerHTML=(cont.toString());
-    handlerReg();
-    const {remote}=require("electron");
-    remote.getCurrentWindow().maximize();
+        document.getElementById('forms-container').innerHTML=(cont.toString());
 
+        handlerReg();document.getElementById("popup-window").classList.add('app-hide');
+        const {ipcRenderer,remote,BrowserWindow}= require('electron');
+        ipcRenderer.send('resize-me-please',{dom:'reg'})
 }
 function handlerReg(){
     const dater=document.querySelector("#dob");
@@ -75,8 +75,6 @@ function handlerReg(){
         }
     })
     dater.addEventListener('keypress',function (e) {
-
-
         let count = validateCount(e, 10)
 
         if (count == true) {
@@ -93,7 +91,6 @@ function handlerReg(){
     });
 }
 function  instanceUserManagement(row) {
-
     let id=0;
     if(typeof(row)=='number'){
         id=row;
@@ -102,7 +99,11 @@ function  instanceUserManagement(row) {
     }
     const forms=new objectString();
 
+    forms.generalTags("<div class='app-left app-flex app-width-60 app-flex-column'>");
+
     forms.generalTags('<h3 class="app-left app-full app-text-center app-default-shape">Select Package</h3>');
+
+    forms.generalTags("<section class='app-flex'>");
 
     forms.generalTags("<div class='app-margin-top app-left app-border app-padding app-default-shape app-margin-left app-width-30 app-display-flex flex-column justify-center'>");
 
@@ -142,6 +143,10 @@ function  instanceUserManagement(row) {
 
     forms.generalTags('<div id="response"></div>');
 
+    forms.generalTags("</section>");
+
+    forms.generalTags("</div>");
+
     document.getElementById('forms-container').innerHTML=forms.toString();
 
     const packs=document.querySelectorAll('.pack');
@@ -172,8 +177,10 @@ function  instanceUserManagement(row) {
                             database.insertQuery('sessions',
                                 ['status','machine_type','user_id','keyfile','package'],
                                 [1,(Math.random()*10**7).toString().split(".")[0],id,input.value,pack.getAttribute('data-package')]).then(rows=>{
-                                showClientSystemHandler(row);
+                                loadClientSystem(user,pack.getAttribute('data-package'));
                             });
+                        }else{
+                            renderRegistration();
                         }
                     });
                 });
@@ -182,43 +189,10 @@ function  instanceUserManagement(row) {
         })
     });
 }function loadClientSystem(user=null,package=null){
-    if(user==null)
+    if(user==null || package ==null)
         return;
-    const cont= new objectString();
 
-    cont.generalTags(`<div id="popup-window"> <div class="app-white app-padding app-left" id="processing">  Compiling...  </div> </div>`);
-
-    cont.generalTags(` <div id="toast">General Wallpaper</div>`);
-
-    cont.generalTags(`<section  id="app-container">`);
-
-    cont.generalTags(`<section class="app-header app-default-background">`);
-
-    cont.generalTags(`<div class="app-left " style="padding: 0.5% 1%"> <label class="app-left"><img src="images/default.png" width="54px"></label> <p class="app-left" style="margin: 0px;font-size: 11px;margin-top: 15%">Welcome ,<b id="welcome"></b></p> </div>`);
-
-    cont.generalTags(`<div class="app-right"><button id="user_profile" class="app-round app-border app-padding app-margin fas fa-user btn-main"></button><button id="log_out" class="app-round app-border app-padding app-margin fas fa-power-off btn-main"></button></div>`);
-
-    cont.generalTags(` </section>`);
-
-    cont.generalTags(`<section class="app-body app-white" id='body-container'><div class="app-left app-full" id="menu-cont"></div><div class="app-left app-full" id="body-cont">Body Container</div></section>`);
-
-    cont.generalTags(`<section class="app-menu app-default-background" id='menu-section'>`);
-
-    cont.generalTags(` </section>`);
-
-    cont.generalTags(` </section>`);
-
-    document.body.innerHTML=cont.toString();
-
-    loadModules(package);_loadMainMenus(package);setTimeout(hidePopup,100);
-    const welcome=document.querySelector("#welcome");
-    welcome.innerHTML=capitalize(user.user);
-    const bodyContent=document.querySelector("#body-cont");
-    bodyContent.innerHTML=getDashboardContent(1,()=>{
-        const {remote}=require("electron");
-
-        remote.getCurrentWindow().maximize();
-    });
+    showClientSystem();
 
 }
 function handleUserLoginInto() {
@@ -242,8 +216,8 @@ function handleUserLoginInto() {
         </div>`);
     const formContainer=document.getElementById('forms-container');
     formContainer.innerHTML=(cont.toString());hidePopup();
-
-    ipcRenderer.send('showSystem');
+    const {ipcRenderer}=require('electron');
+    ipcRenderer.send('resize-me-please',{dom:'login'});
     const login=document.querySelector("#login");
 
     login.addEventListener('click',function (e) {
@@ -280,3 +254,85 @@ function handleUserLoginInto() {
     })
 
 }
+function showClientSystem(){
+
+    database.selectQuery(["a.machine_type",'a.user_id','a.keyfile','a.package','a.status','b.email','b.username'],'sessions a, frontend_users b','where a.user_id=b.id and a.status=1').then(rows=>{
+        if(rows !=undefined & rows.length !=0){
+
+            let package=null;
+            switch (parseInt(rows[0].package)){
+                case 1: //the individual package
+                   package=new  packageManager(rows[0]);
+                  break;
+                case 2: //the small business system
+                    package= new packageManager(rows[0]);
+                    break;
+                case 3:// the coop system
+                    package= new packageManager(rows[0]);
+                    break;
+            }
+            package.render();
+
+        }else{
+            database.selectQuery(['*'],'frontend_users').then(rows=>{
+                if(rows !==undefined){
+                    handleUserLoginInto();
+                }else{
+                    renderRegistration();
+                }
+            })
+
+        }
+    });
+}
+const headerBackground=_=>{
+    const cont= new objectString();
+
+    cont.generalTags(`<section class="app-header app-default-background">`);
+
+    cont.generalTags(`<div class="app-left " style="padding: 0.5% 1%"> <label class="app-left"><img src="images/default.png" width="54px"></label> <p class="app-left" style="margin: 0px;font-size: 11px;margin-top: 15%">Welcome ,<b id="welcome"></b></p> </div>`);
+
+    cont.generalTags(`<div class="app-right"><button id="user_profile" class="app-round app-border app-padding app-margin fas fa-user btn-main"></button><button id="log_out" class="app-round app-border app-padding app-margin fas fa-power-off btn-main"></button></div>`);
+
+    cont.generalTags(` </section>`);
+
+    return cont.toString();
+}
+const bodyElement=_=>{
+    const cont= new objectString();
+
+    cont.generalTags();
+
+    cont.generalTags();
+
+    return cont.toString();
+}
+function packageManager(package){
+    const cont= new objectString();
+
+    cont.generalTags(`<div id="popup-window" class="app-hide"> <div class="app-white app-padding app-left" id="processing">  Compiling...  </div> </div>`);
+
+    cont.generalTags(`<div id="toast" class="app-hide">General Wallpaper</div>`);
+
+
+    cont.generalTags(`<section  id="${(package !="1" ? "app-container" : "app-fluid-container")}">`);
+
+    cont.generalTags(headerBackground());
+
+    cont.generalTags(package =="1" ?  `<section class="app-menu app-default-background" id='menu-section'> </section>` : `<section class="app-body app-white" id='body-container'><div class="app-left app-full" id="menu-cont"></div><div class="app-left app-full" id="body-cont">Body Container</div></section>`);
+
+    cont.generalTags(package !="1" ?  `<section class="app-menu app-default-background" id='menu-section'> </section>` : `<section class="app-body app-white" id='body-container'><div class="app-left app-full" id="menu-cont"></div><div class="app-left app-full" id="body-cont">Body Container</div></section>`);
+
+    cont.generalTags(` </section>`);
+
+    return {
+        render:function (){
+            document.getElementById("body").innerHTML=cont.toString();
+            _loadMainMenus(package);
+            const {ipcRenderer} =require('electron');
+
+            ipcRenderer.send("resize-me-please",{dom:'fullscreen'})
+        }
+    };
+}
+showClientSystem();

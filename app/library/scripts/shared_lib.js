@@ -1,8 +1,6 @@
 const bodyContainer=document.querySelector("#body-cont");
 
 function generalExpenseslayout(){
-
-
     let cont= new objectString();
 
     cont.generalTags("<div class='app-left app-full'>");

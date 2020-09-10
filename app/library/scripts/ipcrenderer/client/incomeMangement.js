@@ -1,4 +1,232 @@
 /* ----START OF INCOME FUNCTIONS //MODULE// */
+class IncomeManagement{
+    constructor() {
+
+    }
+    loadIncomeMenu(){
+        const cont= objectString();
+
+        cont.generalTags("<div id='config' class='app-button-shape top-menu'><img src='images/incomes.png'/><label class='app-padding-top app-left'>Settings</label></div>");
+
+        cont.generalTags("<div id='viewIncome' class='app-button-shape top-menu '><img src='images/viewincome.png'/><label class='app-padding-top app-left'>View Income</label></div>");
+
+        cont.generalTags("<div id='addIncome' class='app-button-shape top-menu '><img src='images/recordi.png'/><label class='app-padding-top app-left'>Record Income</label></div>");
+
+        cont.generalTags("<div id='assets' class='app-button-shape top-menu'><img src='images/recordincome.png'/><label class='app-padding-top app-left'>Assets</label></div>");
+
+        cont.generalTags("<div id='liabs' class='app-button-shape top-menu'><img src='images/liabs.png'><label class='app-padding-top app-left'>Liabilities</label></div>");
+
+        return cont.toString();
+    }
+    loadIncomeLayout(){
+        const cont=new objectString();
+
+        let c_date=new Date();
+
+        cont.generalTags("<h3 class='app-left app-full app-border-bottom app-padding-bottom app-padding-left'>View Income</h3>");
+
+        cont.generalTags("<fieldset class='app-margin-left app-round app-margin-right app-margin-bottom'><legend>Filter</legend>");
+
+        cont.generalTags("<div class='app-margin-right app-margin-left app-left app-margin-right'>");
+
+        cont.generalTags("<label class='app-left'>By Year</label>");
+
+        cont.generalTags("<select id='c_year' class='app-left app-margin-left app-round app-padding app-border'> ");
+
+        cont.generalTags(`<option>${c_date.getFullYear()}</option>`);
+
+        cont.generalTags(`<option>${(c_date.getFullYear()-1)}</option>`);
+
+        cont.generalTags(`<option>${(c_date.getFullYear()-2)}</option>`);
+
+        cont.generalTags("</select>")
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("<div class='app-margin-right app-margin-left app-left app-margin-right'>");
+
+        cont.generalTags("<label class='app-left'>File Type</label>");
+
+        cont.generalTags("<select id='c_file' class='app-left app-margin-left app-round app-padding app-border'> ")
+
+        cont.generalTags("<option>1040 </option>");
+
+        cont.generalTags("<option>W2 </option>");
+
+        cont.generalTags("</select>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("<div class='app-margin app-right app-margin-right'>");
+
+        //  cont.generalTags("<label class='app-left' id='search'> <i class='fas fa-search'></i><input type='text' class='app-round'> </label>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("</fieldset>");
+
+        database.selectQuery(['*'],'py_income').then(data=>{
+            loadIncomeTableLayout(data);
+
+            let totalIncome=0;
+            for(let i=0;i<data.length;i++){
+                totalIncome +=parseInt(data[i].ic_amount);
+            }
+            const income=new objectString();
+
+            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right'>Overall Income</b><label class='app-right app-half app-text-right'>$ "+totalIncome+"</label></div>");
+
+            income.generalTags("<div class=' app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right'>Tax</b><label class='app-right app-half app-text-right '>$ 100</label></div>");
+
+            income.generalTags("<div class='app-padding-left app-full app-left'> <b class='app-left app-half app-border-right'>Net Income</b><label class='app-right app-half app-text-right'>$ 100</label></div>");
+
+            document.querySelector("#totals-corner").innerHTML=income.toString();
+        })
+        cont.generalTags("<div class='app-left app-full app-margin-left app-round app-margin-right' style='width: 96%' id='table-container'></div>");
+
+        cont.generalTags("<div class='app-right app-border app-margin app-text-blue app-round ' style='width: 30%' id='totals-corner'></div>");
+        return cont.toString();
+
+    }
+    incomeMicroFunctions(bodyContainer){
+
+        document.querySelector("#config").addEventListener('click',function () {
+            bodyContainer.innerHTML=loadIncomeConfigLayout();
+            loadConfigurationsMicroFunctions();
+        });
+
+        const viewIncome=document.querySelector('#viewIncome');
+
+        viewIncome.addEventListener('click',function () {
+            bodyContainer.innerHTML=loadIncomeLayout();
+        })
+
+        const addIncome=document.querySelector('#addIncome');
+
+        addIncome.addEventListener('click',function () {
+            bodyContainer.innerHTML=loadIncomeEntryLayout();
+            $(".app-date").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "mm/dd/yy",
+                yearRange: "-90:+00"
+            });
+            const upload=document.getElementById('upload');
+            if(upload)
+                upload.addEventListener('click',function () {
+                    const {remote}=require("electron");
+                    const mainWindow=remote.require("./app");
+                    mainWindow.getFileFromUser().then(value=>{
+                        if(value.value==1){
+                            document.getElementById('file-upload').value=value.file;
+                        }else{
+                            alert("an error occured");
+                        }
+                        console.log(value);
+                    });
+                });
+
+            document.getElementById('attachLiabs').addEventListener('click',function () {
+                $("#income_defenition").fadeIn(function () {
+                    $("#income_defenition").animate({
+                        height:"120px",
+                        backgroundColor:"grey"
+                    },function () {
+                        loadIncomeHandlerFunction("#income_defenition",0);
+                    }).html("loading liabilities...");
+                });
+            });
+            document.getElementById('attachIncome').addEventListener('click',function () {
+                $("#income_defenition").fadeIn(function () {
+                    $("#income_defenition").animate({
+                        height:"120px",
+                        backgroundColor:"grey"
+                    },function () {
+                        loadIncomeHandlerFunction("#income_defenition",1);
+                    }).html("loading Assets...");
+                });
+            });
+            document.querySelector("#addInc").addEventListener('click',function () {
+                const desc=document.querySelector("#inc_desc");
+                const amount=document.querySelector("#inc_amount");
+                const file=document.querySelector("#file-upload");
+                const date=document.querySelector('#inc_date');
+                const category=document.getElementById("assigned");
+
+                if(desc.value !="" || amount.value !="" || date.value !=""){
+
+
+                    database.insertQuery('py_income',['ic_has_category','ic_amount','ic_date','ic_file','ic_description','ic_category'],
+                        [(category !=undefined ? category.value: 0 ),amount.value,date.value,(file.value !='' ? file.value :'0'),desc.value,(category !=undefined ? $("#selected").val(): 0 )]).then(rows=>{
+                        response(rows,"Income Added Successfully","Please Check your inputs",()=>{
+                            desc.value="";
+                            amount.value='';
+                            date.value="";
+                            file.value="";
+                            bodyContainer.innerHTML=loadIncomeLayout();
+                        });
+                    })
+
+
+                }
+            });
+        })
+        document.getElementById('liabs').addEventListener('click',()=>{
+            // loadConfigurationsMicroFunctions(null,loadIncomeLiabilitiesDefaultLayout,loadIncomeLiabilitiesNewMicroFunctions)
+            bodyContainer.innerHTML=loadIncomeLiabilitiesDefaultLayout();
+            loadIncomeLiabilitiesNewMicroFunctions();
+        })
+
+        document.getElementById('assets').addEventListener('click',()=>{
+            bodyContainer.innerHTML=loadIncomeAssetsDefaultLayout();
+
+            const asset_container=document.getElementById('assets-content-container');
+
+            document.getElementById('v_assets').addEventListener('click',function () {
+                asset_container.innerHTML=loadIncomeAssetsDefaultViewLayout();
+            });
+
+            document.getElementById('ad_assets').addEventListener('click',function () {
+                asset_container.innerHTML=loadIncomeConfigNewAssetsDataLayout();
+                attachNode();
+                document.getElementById('submit').addEventListener('click',function () {
+                    const description=document.getElementById('desc');
+
+                    const n_value=document.getElementById('net');
+
+                    const category=document.getElementById('cat');
+
+                    const group=document.getElementById('select-group');
+
+                    const config=fetchNodes();
+
+                    let dater=null;
+
+                    const today=new Date();
+
+                    dater=today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear();
+
+
+                    database.insertQuery('py_assets',
+                        ['description','amount','category','sub_category','data','dateof'],
+                        [description.value,n_value.value,category.value,group.value,JSON.stringify(config),dater]).then(row=>{
+                        if(row !==undefined){
+                            const UI=Toast("Asset added succesfully",()=>{
+
+                            })
+                        }
+                    });
+
+
+                });
+            })
+
+        });
+
+    }
+}
 const loadIncomeMenu=_=>{
     const cont= objectString();
 
@@ -12,7 +240,6 @@ const loadIncomeMenu=_=>{
 
     cont.generalTags("<div id='liabs' class='app-button-shape top-menu'><img src='images/liabs.png'><label class='app-padding-top app-left'>Liabilities</label></div>");
 
-
     return cont.toString();
 
 },incomeMicroFunctions=_=>{
@@ -23,7 +250,6 @@ const loadIncomeMenu=_=>{
     document.querySelector("#config").addEventListener('click',function () {
         //bodyContainer.innerHTML=loadIncomeConfigLayout();
         loadMainFunctions( null,loadIncomeConfigLayout,loadConfigurationsMicroFunctions)
-
 
     });
 

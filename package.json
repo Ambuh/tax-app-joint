@@ -1,21 +1,26 @@
 {
   "name": "24HourTax",
   "productName": "24Hour Tax app",
-  "description": "24Hour tax =>Starter for your electron + sqlite application+mysql application",
-  "version": "1.0.0",
-  "author": "ambuhmwangi",
-  "copyright": "© 2020, devAmbrose Ltd.",
-  "homepage": "http://example.com",
+  "description": "24Hour tax offline use application",
+  "version": "1.2.0",
+  "author": "Adept Development Inc.",
+  "copyright": "© 2020, Adept Development",
+  "homepage": "http://24houttax.tech",
   "license": "MIT",
   "main": "app/app.js",
   "build": {
-    "appId": "com.example.electron-24hourapp-sqlite-mysql",
+    "appId": "com.example.electron-24hourapp-offline-app",
     "files": [
       "app/**/*",
       "node_modules/**/*",
       "package.json"
     ],
-    "npmRebuild": false
+    "npmRebuild": false,
+    "productName": "24Hour Tax Software",
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
+    }
   },
   "scripts": {
     "postinstall": "run install-app-deps",
@@ -23,7 +28,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "release": "build",
     "build": "npm run build-windows",
-    "build-windows": " electron-packager .  --overwrite"
+    "build-windows": " electron-packager .  --overwrite",
+    "dist": "electron-builder"
+  },
+  "mac": {
+
+  },
+  "win": {
+    "icon": "./app/ibrary/template/images/icons8-last-24-hours-100.png"
   },
   "dependencies": {
     "chart.js": "^2.9.3",

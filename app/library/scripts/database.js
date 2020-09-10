@@ -1,37 +1,21 @@
 const sqlite3 = require('sqlite3').verbose();
-
 const path=require('path');
-
 const fs=require('fs');
-
-const io= require('socket.io-client');
-
-const socket=io('http://localhost:9090');
-
-socket.emit("hello",function (){
-    console.log("i eMiited a hello");
+let db=this.db=new sqlite3.Database(path.join(__dirname,'./../main.db'),sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+        createSQLFile();
+        console.log(err);
+    }
 });
 
-let db = new sqlite3.Database(path.join(__dirname,'./../../main.db'),sqlite3.OPEN_READWRITE, (err) => {
-        if (err) {
-            createSQLFile();
-            console.log(err);
-        }else{
-            console.log("Connected to the database ");
-        }
-
-    });
-
-
-function createSQLFile(cbk) {
-  fs.writeFile(path.join(__dirname),'./../../main.db',(err)=>{
+function createSQLFile() {
+  fs.writeFile(path.join(__dirname,'./../main.db'),'',function(err,result){
       if(err){
           console.log("Unable to create the database");
       }else{
           if(cbk !=undefined) {
               cbk();
           }
-
       }
 
   })
@@ -43,7 +27,7 @@ exports.createTableInstances=()=>{
         'create table IF NOT EXISTS  py_employees(id integer  PRIMARY KEY ,firstname text,secondname text,email text,status text,ssn text,dob text,city text,em_contacts text)',
         'create table IF NOT EXISTS sessions( status integer default 1,machine_type text,user_id text,keyfile text,package text)',
         'create table IF NOT EXISTS py_groups(id integer PRIMARY KEY ,basic text,tax text,overtime text,type text)',
-        'create table IF NOT EXISTS py_income(id integer PRIMARY KEY,ic_file text,ic_category text,ic_amount text,ic_date text)',
+        'create table IF NOT EXISTS py_income(id integer PRIMARY KEY,ic_file text,ic_category text,ic_amount text,ic_date text,ic_has_category text)',
         'create table IF NOT EXISTS py_expenses(id integer PRIMARY KEY ,description text,cost text ,file text,dateof text,others text) ',
         'create table IF NOT EXISTS py_payroll_payment(id integer PRIMARY KEY,employee_id text,group_id text,date_of text,by_who text ,by_id text,month_of text,status text,amount text,note text)'
          ,'create table IF NOT EXISTS py_liabilities(id INTEGER PRIMARY KEY,description text,amount text,category text,sub_category INTEGER DEFAULT 0,note text,data text,dateof text )',
@@ -62,30 +46,26 @@ exports.createTableInstances=()=>{
     });
 }
 module.exports={
-    port:'00',
-    checkSoftware:function(){
+     port:'00',
+    checkSoftware:function(app){
+        
+
         db.serialize(function (){
-            db.all("select * from sessions ",[],(err,res)=>{
-              return res[0] !=undefined ?  res[0].package =='2' ? true : false : 3;
+           db.all("select * from sessions ",[],(err,res)=>{
+              return res !=undefined ?   res[0] !=undefined ?  res[0].package =='2' ? true : false : 3 : false;
             });
         });
     },selectQuery:function (arr=[],table,where=''){
-           if(this.checkSoftware()){
-
-           }else if(this.checkSoftware()==3){
-
-           }else{
-
-           }
+           this.db=new sqlite3.Database(path.join(__dirname,'./../main.db'),sqlite3.OPEN_READWRITE)
 
            if(typeof  arr !='object'){
                return null;
             }
             return new Promise(function(resolve, reject){
                     db.serialize(function() {
-                        db.all("SELECT "+arr.join(",")+" FROM "+table+" "+where,[],(err,rows)=>{
+                       db.all("SELECT "+arr.join(",")+" FROM "+table+" "+where,[],(err,rows)=>{
                             if(rows==undefined){
-                               createTableInstances();
+                              exports.createTableInstances();
                                resolve([]);
 
                             }else{
@@ -97,10 +77,15 @@ module.exports={
                     },
             )},
         insertQuery:function (table,fields,params) {
+            if(this.checkSoftware()){
 
-            let data=prepareDataForDB(fields);
+            }else if(this.checkSoftware()==3){
 
-             let database=this;
+            }else{
+
+            }let data=prepareDataForDB(fields);
+
+             let database=this.db;
 
             return new Promise(function(resolve, reject){
                 db.serialize(()=>{
@@ -141,12 +126,13 @@ module.exports={
            for(let i=0;i<fields.length;i++){
                where.push(fields[i]+"='"+equals[i]+"'");
            }
-           let query='update '+table+' set '+where.join(',')+' where '+whereclause;
+           let query='update '+table+' set '+where.join(',')+(whereclause !=undefined ? "where "+whereclause :' ' );
 
             return new Promise(function (resolve, reject) {
               db.serialize(()=>{
                   db.run(query,[],function (err,rows) {
                         if(err){
+                            console.log(query);
                             console.log(err);
                         }else{
                             resolve(this.lastID)
@@ -160,7 +146,7 @@ module.exports={
 
            return new Promise(function (resolve, reject) {
                 db.serialize(()=>{
-                    db.all(query,[],function (err,rows) {
+                  db.all(query,[],function (err,rows) {
                         if(rows==undefined){
                             console.log(query);
                         }else{
