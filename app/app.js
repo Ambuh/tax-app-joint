@@ -64,7 +64,7 @@ app.on('ready', function () {
   globalShortcut.register('Control+Shift+I',()=>{
     return false;
   });
-  globalShortcut.register('Control+C',function (){
+  globalShortcut.register('Control+I',function (){
     window.webContents.openDevTools()
   })
 });
@@ -80,29 +80,28 @@ app.on('window-all-closed', function () {
 ipcMain.on('moduleLoadFunction',function (ev,args) {
   if(args !=1){
     const {runFunctions}=require('./library/scripts/ipcmain/incomeHandler');
-
     runFunctions(mainWindow);
   }
 });
 ipcMain.on("dropSession",function (ev,args){
-  console.log("dropping session");
    updateQuery('sessions',['status'],['0']).then(rows=>{
       mainWindow.webContents.send("renderLogin");
    });
 });
 
 ipcMain.on('resize-me-please',(ev,args)=>{
-
-  console.log(args);
   if(args.dom=='full'){
      mainWindow.maximize();
    }else if(args.dom =="reg"){
-    mainWindow.setSize(600,650)
-  }else{
-    mainWindow.setSize(550,550);
-  }
-})
+    mainWindow.setPosition(450,10);
+    mainWindow.setSize(600,700);
 
+  }else{
+
+    mainWindow.setPosition(500,50);
+    mainWindow.setSize(450,550);
+  }
+});
 exports.handleDialog=function (){
   dialog.showOpenDialog(browserWindow,);
 }

@@ -2,17 +2,18 @@ const _loadMainMenus=package=>{
         let cont = new objectString();
 
         let menus=null;
-        if(package.package=="1"){
+        if(package=="1"){
             menus=[
                 ['dash','dashboard','<img src="images/dash.png">'],
                 ['item','Itemization','<img src="images/dash.png">']
             ]
-        }else if(package.package =="2"){
+        }else if(package =="2"){
             menus =[ ['dash','dashboard','<img src="images/dash.png">'],['calc','calculator','<img src="images/calculator.png">'],
                 ['inc','income','<img src="images/income.png">'],['expen','Expenses','<img src="images/expen.png">'],['proj','project Management','<img src="images/project.png">'],['inventory','inventory','<img src="images/invent.png">'],['reports','Reports','<img src="images/report.png">'],['manage','User Management','<img src="images/user.png">'],['payroll','Payroll','<img src="images/payroll.png">'],['sets','settings','<i class=\'fas fa-cogs app-margin-right\'></i>'] ];
-        }else if(package.package =="3"){
+        }else if(package =="3"){
 
         }
+
         for(let i=0;i<menus.length;i++)
             cont.generalTags("<div class='menu app-default-font app-padding app-margin-top app-white app-default-shape app-pointer' id='"+menus[i][0]+"'>"+menus[i][2]+" "+ucFirst(menus[i][1])+"</div>");
 
@@ -73,10 +74,11 @@ const _loadMainMenus=package=>{
 
                         const {ipcRenderer}=require("electron");
 
-                        console.log("Is working");
                         ipcRenderer.send("dropSession");
+                        handleUserLoginInto();
 
                     },function () {
+
                     });
             });
 

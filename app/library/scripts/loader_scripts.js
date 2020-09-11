@@ -2,6 +2,7 @@ const io= require('socket.io-client');
 
 const socket = io(`http://localhost:9080`);
 
+
 function Toast(/*content*/cont,/*callBack*/callBack){
 
     const ui=$("#toast");
@@ -264,11 +265,13 @@ function confirmAction(/*message*/ message,/*confirm_action*/ confirmAction,/*de
             }
         }
         $("#cont").unbind().click(function(){
-            confirmAction();
-           //popWindow.fadeOut('slow');
+            if(confirmAction !=undefined)
+                confirmAction();console.log("is working");
         });
         $("#can").unbind().click(function (){
-            declineAction();
+            if(declineAction !=undefined)
+                declineAction();
+
             popWindow.fadeOut('fast')
         })
     }

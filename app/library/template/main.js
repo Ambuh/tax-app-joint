@@ -25,12 +25,14 @@ function renderRegistration(){
 
         handlerReg();document.getElementById("popup-window").classList.add('app-hide');
         const {ipcRenderer,remote,BrowserWindow}= require('electron');
-        ipcRenderer.send('resize-me-please',{dom:'reg'})
+        ipcRenderer.send('resize-me-please',{dom:'reg'});
 }
 function handlerReg(){
     const dater=document.querySelector("#dob");
     const register= document.querySelector("#register");
     const ssn=document.querySelector("#ssn");
+
+    $("#dob").datepicker({format:'mm/dd/yyyy',changeMonth:true,changeYear:true});
 
     ssn.addEventListener('keypress',function (e) {
         let count=validateCount(e,10,10);
@@ -199,53 +201,87 @@ function handleUserLoginInto() {
 
     const cont= new objectString();
 
-    cont.generalTags(' <header class="app-default-background app-default-font app-center app-padding app-margin-bottom" style="font-size: 24px">Login</header>');
+    cont.generalTags('<header class="app-default-background app-default-font app-center app-full app-padding" style="font-size: 24px">Login</header>');
 
-    cont.generalTags(`<div class="app-padding app-left app-full">
-            <label class="app-left app-full">Username or Email Address</label>
-            <input id="email" style="width:96%" type ='text' class="app-margin-top app-padding app-default-shape app-border ">
-        </div>`);
-    cont.generalTags(` <div class="app-padding app-left app-full">
-            <label class="app-left app-full">Password</label>
-            <input id="pass" style="width:96%" type='password' class="app-margin-top app-padding app-default-shape app-border ">
-        </div>`);
-    cont.generalTags(`<div class="app-padding app-left app-full">
+    cont.generalTags('<div class="app-left app-full app-text-center" id="response"></div>');
+    [
+        {name:'Username or email address',type:'text',id:'email'},
+        {name:'Password',type: 'password',id:'pass'}
+    ].forEach(input=>{
+        cont.generalTags('<div class="app-padding app-left app-full">');
+
+        cont.generalTags('<label class="app-left app-full">'+input.name+'</label>');
+
+        cont.generalTags('<input id="'+input.id+'" style="width:96%" type ="'+input.type+'" class="app-margin-top app-padding app-default-shape app-border ">');
+
+        cont.generalTags(`</div>`);
+    })
+
+        cont.generalTags(`<div class="app-padding app-left app-full">
 
             <button id="register" class="app-right app-default-shape app-border app-blue app-hover-green app-pointer app-padding " style="margin-right: 4%">Register</button>
             <button class="app-right app-default-shape app-border app-blue app-hover-green app-pointer app-padding app-margin-right" id="login" >Login</button>
         </div>`);
+
     const formContainer=document.getElementById('forms-container');
-    formContainer.innerHTML=(cont.toString());hidePopup();
+
+    if(formContainer ==null)
+        $("#body").html("<div id='forms-container'>"+cont.toString()+"</div>");
+
+    if(formContainer !=null)
+        formContainer.innerHTML=(cont.toString());$("#popup-window").fadeOut('fast');
+
     const {ipcRenderer}=require('electron');
+
     ipcRenderer.send('resize-me-please',{dom:'login'});
+
     const login=document.querySelector("#login");
 
     login.addEventListener('click',function (e) {
         e.preventDefault();
+        if(login.innerHTML !='Login')
+            return;
         const pass=document.querySelector("#pass");
         const email=document.querySelector("#email");
 
-        if(pass.value !=="" || email.value !==""){
+        login.innerHTML="Processing...";
 
-            database.selectQuery(['*'],'frontend_users',"where email_address='"+email.value+"'").then(rows=>{
+            database.selectQuery(['*'],'frontend_users'," where email='"+$("#email").val().trim()+"' order by id ").then(rows=>{
 
-                if(rows !=undefined && rows[0].password==pass.value){
-                    console.log(rows.password);
-                    database.selectQuery('*','sessions').then(row=>{
-                        if(row.length >1){
-                            row.forEach(session=>{
+                if(rows !=undefined & rows.length !=0){
+                    if(rows[0].password==$("#pass").val().trim()){
 
-                            })
-                            console.log("Check user instance");
-                        }else{
-                            instanceUserManagement(rows[0].id);
-                        }
+                        database.updateQuery('sessions',['status'],['1'],' user_id='+rows[0].id).then(rows=>{
+                            console.log(rows);
+                            showClientSystem();
+                        })
+
+                    }else{
+                        $("#response").animate({
+                            height:'30px',
+                            width:'100%',
+                            opacity:'1',
+                            backgroundColor:'red'
+                        },800,function (){
+                            $(this).html("Passwords do not match");
+                            login.innerHTML='Login';
+                        });
+
+                    }
+                }
+                else{
+                    $("#response").animate({
+                        height:'30px',
+                        width:'100%',
+                        opacity:'1',
+                    },800,function (){
+                        $(this).html("Passwords do not match").addClass('app-red');
+                        login.innerHTML='Login';
                     });
-
                 }
             });
 
-        }
+
     });
     const register=document.querySelector("#register");
 
@@ -307,7 +343,8 @@ const bodyElement=_=>{
 
     return cont.toString();
 }
-function packageManager(package){
+function packageManager({package}){
+
     const cont= new objectString();
 
     cont.generalTags(`<div id="popup-window" class="app-hide"> <div class="app-white app-padding app-left" id="processing">  Compiling...  </div> </div>`);
@@ -328,10 +365,10 @@ function packageManager(package){
     return {
         render:function (){
             document.getElementById("body").innerHTML=cont.toString();
-            _loadMainMenus(package);
+            _loadMainMenus(package);loadModules();
             const {ipcRenderer} =require('electron');
 
-            ipcRenderer.send("resize-me-please",{dom:'fullscreen'})
+            ipcRenderer.send("resize-me-please",{dom:'full'})
         }
     };
 }

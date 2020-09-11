@@ -56,19 +56,22 @@ module.exports={
             });
         });
     },selectQuery:function (arr=[],table,where=''){
-           this.db=new sqlite3.Database(path.join(__dirname,'./../main.db'),sqlite3.OPEN_READWRITE)
+           db=new sqlite3.Database(path.join(__dirname,'./../main.db'),sqlite3.OPEN_READWRITE)
 
            if(typeof  arr !='object'){
                return null;
             }
+            let query="SELECT "+arr.join(",")+" FROM "+table+" "+where;
             return new Promise(function(resolve, reject){
                     db.serialize(function() {
-                       db.all("SELECT "+arr.join(",")+" FROM "+table+" "+where,[],(err,rows)=>{
+                       db.all(query,[],(err,rows)=>{
                             if(rows==undefined){
-                              exports.createTableInstances();
-                               resolve([]);
+                                console.log(query);
+                                exports.createTableInstances();
+                                resolve([]);
 
                             }else{
+
                                 resolve(rows);
                             }
                         })
