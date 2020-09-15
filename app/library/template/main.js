@@ -101,7 +101,7 @@ function  instanceUserManagement(row) {
     }
     const forms=new objectString();
 
-    forms.generalTags("<div class='app-left app-flex app-width-60 app-flex-column'>");
+    forms.generalTags("<div class='app-left app-flex app-full app-flex-column'>");
 
     forms.generalTags('<h3 class="app-left app-full app-text-center app-default-shape">Select Package</h3>');
 
@@ -143,13 +143,15 @@ function  instanceUserManagement(row) {
 
     forms.generalTags("<div class='app-margin-top app-left app-border app-padding app-default-shape app-width-30'>Co-operates Package</div>");
 
-    forms.generalTags('<div id="response"></div>');
-
     forms.generalTags("</section>");
+
+    forms.generalTags('<div id="response" class="app-left app-full" style="display: grid;place-items: center"></div>');
 
     forms.generalTags("</div>");
 
     document.getElementById('forms-container').innerHTML=forms.toString();
+
+    const {ipcRenderer}=require("electron");ipcRenderer.send("resize-me-please",{dom:'reg'})
 
     const packs=document.querySelectorAll('.pack');
 
@@ -235,52 +237,23 @@ function handleUserLoginInto() {
 
     ipcRenderer.send('resize-me-please',{dom:'login'});
 
+    const inputs=document.querySelectorAll("input");
+
+    if(inputs)
+        inputs.forEach(inputs=> {
+            inputs.addEventListener('keypress',function (e) {
+                if(e.keyCode==13){
+                    handleLogin(login)
+                }
+            })
+        })
     const login=document.querySelector("#login");
 
     login.addEventListener('click',function (e) {
         e.preventDefault();
         if(login.innerHTML !='Login')
             return;
-        const pass=document.querySelector("#pass");
-        const email=document.querySelector("#email");
-
-        login.innerHTML="Processing...";
-
-            database.selectQuery(['*'],'frontend_users'," where email='"+$("#email").val().trim()+"' order by id ").then(rows=>{
-
-                if(rows !=undefined & rows.length !=0){
-                    if(rows[0].password==$("#pass").val().trim()){
-
-                        database.updateQuery('sessions',['status'],['1'],' user_id='+rows[0].id).then(rows=>{
-                            console.log(rows);
-                            showClientSystem();
-                        })
-
-                    }else{
-                        $("#response").animate({
-                            height:'30px',
-                            width:'100%',
-                            opacity:'1',
-                            backgroundColor:'red'
-                        },800,function (){
-                            $(this).html("Passwords do not match");
-                            login.innerHTML='Login';
-                        });
-
-                    }
-                }
-                else{
-                    $("#response").animate({
-                        height:'30px',
-                        width:'100%',
-                        opacity:'1',
-                    },800,function (){
-                        $(this).html("Passwords do not match").addClass('app-red');
-                        login.innerHTML='Login';
-                    });
-                }
-            });
-
+        handleLogin(login)
 
     });
     const register=document.querySelector("#register");
@@ -288,6 +261,54 @@ function handleUserLoginInto() {
     register.addEventListener('click',()=>{
         renderRegistration()
     })
+
+    function handleLogin(login){
+        const pass=document.querySelector("#pass");
+        const email=document.querySelector("#email");
+
+        login.innerHTML="Processing...";
+
+        database.selectQuery(['a.email,a.id,a.password'],'frontend_users a,sessions b',"where a.id=b.user_id and a.email='"+$("#email").val().trim()+"' ").then(rows=>{
+            console.log("sessions",rows);
+            if(rows.length ==0){
+                database.selectQuery(['*'],'frontend_users'," where email='"+$("#email").val().trim()+"' and password='"+$("#pass").val().trim()+"' order by id ").then(row=>{
+                    console.log("user",row)
+                    if(row.length !=0 | row !=undefined){
+                        instanceUserManagement(row[0].id);
+                    }else{
+                        $("#response").animate({
+                            height:'30px',
+                            width:'100%',
+                            opacity:'1',
+                        },800,function (){
+                            $(this).html("Passwords do not match").addClass('app-red');
+                            login.innerHTML='Login';
+                        });
+                        //renderRegistration();
+                    }
+
+                })
+            }else{
+                if(rows[0].password==$("#pass").val().trim()){
+
+                    database.updateQuery('sessions',['status'],['1'],' user_id='+rows[0].id).then(rows=>{
+                        showClientSystem();
+                    });
+                }else{
+                    $("#response").animate({
+                        height:'30px',
+                        width:'100%',
+                        opacity:'1',
+                        backgroundColor:'red'
+                    },800,function (){
+                        $(this).html("Passwords do not match");
+                        login.innerHTML='Login';
+                    });
+
+                }
+            }
+        })
+    }
 
 }
 function showClientSystem(){
@@ -308,6 +329,10 @@ function showClientSystem(){
                     break;
             }
             package.render();
+            const {ipcRenderer} =require('electron');
+
+
+            ipcRenderer.send("resize-me-please",{dom:'full'})
 
         }else{
             database.selectQuery(['*'],'frontend_users').then(rows=>{

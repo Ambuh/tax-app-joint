@@ -296,3 +296,13 @@ function confirmAction(/*message*/ message,/*confirm_action*/ confirmAction,/*de
 
     return popWindow;
 }
+function popupWindow(cont,cbk) {
+
+    const popWindow=document.getElementById("popup-window");
+
+    popWindow.classList.remove("app-hide")
+
+    popWindow.innerHTML=cont;
+    cbk();
+    return popWindow;
+}
