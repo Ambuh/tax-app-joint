@@ -239,8 +239,17 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .app-money{font-family: money,'SansSerif';font-size: 14px; }.app-hidden{    display: none;   }
 b{font-size: 11px}.app-width-30{width:30% !important}.justify-center{justify-content: space-evenly}::-webkit-scrollbar-track{ -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); background-color: #F5F5F5;}::-webkit-scrollbar{ width: 10px; background-color: #F5F5F5;}::-webkit-scrollbar-thumb{background-color: #e1eceb;border: 1px solid #e1eceb;border-radius: 10px;}input:focus{outline-offset: revert;outline: none; }@font-face {font-family: money; src: url("Noto_Sans_JP/NotoSansJP-Light.otf");}
 .app-overflow-hidden{overflow: hidden}.app-text-underline{ text-decoration: underline}
-                                      .app-flex{
-                                          display: flex;
-                                      }.app-flex-column{
-    flex-direction: column;
-                                                                             }
+.app-flex{ display: flex;}.app-flex-column{ flex-direction: column; }
+.app-default-loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: d_spin 2s linear infinite;
+}
+
+@keyframes d_spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

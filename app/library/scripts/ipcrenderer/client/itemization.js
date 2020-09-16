@@ -64,6 +64,7 @@ class Itemization{
           if(menu =="expenseButton"){
               menuContainer.innerHTML=classUi.expense.loadExpensesMenu();
               bodyElement.innerHTML=classUi.expense.loadExpensesLayout();
+              classUi.expense.expensesFunctions(bodyElement);
           }
           if(menu=='taxButton'){
              menuContainer.innerHTML='';

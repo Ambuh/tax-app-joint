@@ -1,5 +1,6 @@
 /* ----START OF INCOME FUNCTIONS //MODULE// */
 class IncomeManagement{
+
     constructor() {
 
     }
@@ -19,70 +20,34 @@ class IncomeManagement{
         return cont.toString();
     }
     loadIncomeLayout(){
+        const current=this;
         const cont=new objectString();
 
         let c_date=new Date();
 
         cont.generalTags("<h3 class='app-left app-full app-border-bottom app-padding-bottom app-padding-left'>View Income</h3>");
 
-  /*      cont.generalTags("<fieldset class='app-margin-left app-round app-margin-right app-margin-bottom'><legend>Filter</legend>");
-
-        cont.generalTags("<div class='app-margin-right app-margin-left app-left app-margin-right'>");
-
-        cont.generalTags("<label class='app-left'>By Year</label>");
-
-        cont.generalTags("<select id='c_year' class='app-left app-margin-left app-round app-padding app-border'> ");
-
-        cont.generalTags(`<option>${c_date.getFullYear()}</option>`);
-
-        cont.generalTags(`<option>${(c_date.getFullYear()-1)}</option>`);
-
-        cont.generalTags(`<option>${(c_date.getFullYear()-2)}</option>`);
-
-        cont.generalTags("</select>")
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-margin-right app-margin-left app-left app-margin-right'>");
-
-        cont.generalTags("<label class='app-left'>File Type</label>");
-
-        cont.generalTags("<select id='c_file' class='app-left app-margin-left app-round app-padding app-border'> ")
-
-        cont.generalTags("<option>1040 </option>");
-
-        cont.generalTags("<option>W2 </option>");
-
-        cont.generalTags("</select>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-margin app-right app-margin-right'>");
-
-        //  cont.generalTags("<label class='app-left' id='search'> <i class='fas fa-search'></i><input type='text' class='app-round'> </label>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("</fieldset>");
-*/
         database.selectQuery(['*'],'py_income').then(data=>{
             this.loadIncomeTableLayout(data);
 
-            let totalIncome=0;
+            let totalIncome=0,totalTaxes=0,totalDeductions=0;
             for(let i=0;i<data.length;i++){
                 totalIncome +=parseInt(data[i].ic_amount);
+                totalTaxes+=(parseInt(data[i].ic_tax_applied)/100)*parseInt(data[i].ic_amount);
+                totalDeductions+=parseInt(data[i].ic_tax_deduction);
             }
             const income=new objectString();
 
-            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right'>Overall Income</b><label class='app-right app-half app-text-right'>$ "+totalIncome+"</label></div>");
+            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Overall Income</b><label class='app-right app-half app-text-left'>$ "+totalIncome+"</label></div>");
 
-            income.generalTags("<div class=' app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right'>Tax</b><label class='app-right app-half app-text-right '>$ 100</label></div>");
+            income.generalTags("<div class=' app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Total Taxes</b><label class='app-right app-half  app-text-left '>$ "+totalTaxes+"</label></div>");
 
-            income.generalTags("<div class='app-padding-left app-full app-left'> <b class='app-left app-half app-border-right'>Net Income</b><label class='app-right app-half app-text-right'>$ 100</label></div>");
+            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Total Deductions</b><label class='app-right app-half  app-text-left'>$ "+totalDeductions+"</label></div>");
+
+            income.generalTags("<div class='app-padding-left app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Net Income</b><label class='app-right app-half  app-text-left'>$ "+(totalIncome-(totalDeductions+totalTaxes))+"</label></div>");
 
             document.querySelector("#totals-corner").innerHTML=income.toString();
+            current.incomeTableFunctions();
         })
         cont.generalTags("<div class='app-left app-full app-margin-left app-round app-margin-right' style='width: 96%' id='table-container'></div>");
 
@@ -93,6 +58,7 @@ class IncomeManagement{
     incomeMicroFunctions(bodyContainer){
 
         const current=this;
+        this.bodyContainer=bodyContainer;
         document.querySelector("#config").addEventListener('click',function () {
             bodyContainer.innerHTML=current.loadIncomeConfigLayout();
             current.loadConfigurationsMicroFunctions();
@@ -161,9 +127,14 @@ class IncomeManagement{
                 if(desc.value !="" || amount.value !="" || date.value !=""){
 
 
-                    database.insertQuery('py_income',['ic_has_category','ic_amount','ic_date','ic_file','ic_description','ic_category'],
-                        [(category !=undefined ? category.value: 0 ),amount.value,date.value,(file.value !='' ? file.value :'0'),desc.value,(category !=undefined ? $("#selected").val(): 0 )]).then(rows=>{
-                        response(rows,"Income Added Successfully","Please Check your inputs",()=>{
+                    database.insertQuery('py_income',
+                        ['ic_has_category','ic_amount','ic_date','ic_file','ic_description','ic_category','ic_tax_applied','ic_tax_deduction'],
+                        [(category !=undefined ? category.value: 0 ),
+                            amount.value,date.value,
+                            (file.value !='' ? file.value :'0'),
+                            desc.value,(category !=undefined ? $("#selected").val(): 0 ),
+                            $("#inc_tax").val().trim() ,$("#inc_deductions").val().trim()]).then(rows=>{
+                        current.response(rows,"Income Added Successfully","Please Check your inputs",()=>{
                             desc.value="";
                             amount.value='';
                             date.value="";
@@ -224,15 +195,28 @@ class IncomeManagement{
             })
         });
     }
-    incomeTableFunctions(){
+    getIncomeFromTable(where_clause=''){
+        return new Promise(function (resolve, reject){
+            database.selectQuery(['*'],'py_income',where_clause).then(incomes=>{
+                resolve(incomes)
+            })
+        });
 
+    }
+    incomeTableFunctions(){
+        const current=this;
         const rows=document.querySelectorAll(".rows");
 
         if(rows)
             rows.forEach(row=>{
 
 
-                    document.querySelector("#"+row.id+" .edit").addEventListener('click',function () {
+                    document.querySelector("#"+row.id+" .edit").addEventListener('click',function (e) {
+
+                        current.getIncomeFromTable("where id="+e.target.getAttribute('data-id')).then(incomes=>{
+                            popupWindow( current.editIncomeUi(incomes[0]),()=>current.editIncomeFunctions(current));
+                        })
+
                           console.log("edit console");
                     });
                     
@@ -274,24 +258,22 @@ class IncomeManagement{
 
         cont.generalTags("<button class='app-left app-border app-margin-top'>Download 1040</button>");
 
-        cont.generalTags("<div class='app-left app-full app-margin-top'><label class='app-left' style='width:20%' >Description</label><input style='width:70%' id='inc_desc' class='app-margin-left app-border app-default-shape app-padding-left app-padding-top app-left'></div>");
+        cont.generalTags('<label id="responseText" class=\'app-left app-full\'></label></div>');
 
-        cont.generalTags("<div class='app-left app-full app-margin-top'><label class='app-left' style='width:20%' >Date</label><input style='width:70%' id='inc_date' class='app-date app-margin-left app-border app-default-shape app-padding-left app-padding-top app-left'></div>");
 
-        cont.generalTags("<div class='app-left app-full app-margin-top'><label class='app-left' style='width:20%' >Amount</label><input style='width:70%' id='inc_amount' class='app-margin-left app-border app-default-shape app-padding-left app-padding-top app-left'></div>");
-
-        cont.generalTags("<div class='app-left app-full app-margin-top'><label class='app-left' style='width:20%'>Tax %age applied </label><input style='width:70%' id='inc_amount' class='app-margin-left app-border app-default-shape app-padding-left app-padding-top app-left'></div>");
-
-        cont.generalTags("<div class='app-left app-full app-margin-top'><label class='app-left' style='width:20%'>Total Deductions</label><input style='width:70%' id='inc_ded' class='app-margin-left app-border app-default-shape app-padding-left app-padding-top app-left'></div>");
-
+        [
+            {name:'Description',id:'inc_desc',className:''},
+            {name:'Date',id:'inc_date',className: 'app-date'},
+            {name:'Amount',id:'inc_amount',className: ''},
+            {name:'Tax Applied',id:'inc_tax',className: ""},
+            {name:'Total Deductions',id:'inc_deductions',className: ''}
+        ].forEach(input=>cont.generalTags("<div class='app-left app-full app-margin-top'><label class='app-left' style='width:20%' >"+input.name+"</label><input style='width:70%' id='"+input.id+"' class='"+input.className+" app-margin-left app-border app-default-shape app-padding-left app-padding-top app-left'></div>"));
 
         cont.generalTags("<div class='app-hidden app-left app-full app-light-grey app-margin-top app-padding' id='income_defenition'></div>");
 
         cont.generalTags("<div class='app-left app-full app-margin-top'><label  class='app-left app-round app-default-background app-hover-green app-padding'  id='upload'>Upload W2/1040 Form</label><input type='text' id='file-upload' class='app-hide'>");
 
         cont.generalTags('<label id="addInc" class=\'app-right app-round app-default-background app-hover-green app-padding\'>Add Income</label></div>')
-
-        cont.generalTags('<label id="responseText" class=\'app-left app-full\'></label></div>');
 
         cont.generalTags("</div>");
 
@@ -381,81 +363,6 @@ class IncomeManagement{
         cont.generalTags("<div class='app-left app-round app-width-90 app-left app-margin-left' id='income-settings-container'></div>");
         return cont.toString();
     }
-    loadIncomeLayout(){
-
-        //loads the income layout for current user
-
-        const cont=new objectString();
-
-        let c_date=new Date();
-
-        cont.generalTags("<h3 class='app-left app-full app-border-bottom app-padding-bottom app-padding-left'>View Income</h3>");
-
-        cont.generalTags("<fieldset class='app-margin-left app-round app-margin-right app-margin-bottom'><legend>Filter</legend>");
-
-        cont.generalTags("<div class='app-margin-right app-margin-left app-left app-margin-right'>");
-
-        cont.generalTags("<label class='app-left'>By Year</label>");
-
-        cont.generalTags("<select id='c_year' class='app-left app-margin-left app-round app-padding app-border'> ");
-
-        cont.generalTags(`<option>${c_date.getFullYear()}</option>`);
-
-        cont.generalTags(`<option>${(c_date.getFullYear()-1)}</option>`);
-
-        cont.generalTags(`<option>${(c_date.getFullYear()-2)}</option>`);
-
-        cont.generalTags("</select>")
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-margin-right app-margin-left app-left app-margin-right'>");
-
-        cont.generalTags("<label class='app-left'>File Type</label>");
-
-        cont.generalTags("<select id='c_file' class='app-left app-margin-left app-round app-padding app-border'> ")
-
-        cont.generalTags("<option>1040 </option>");
-
-        cont.generalTags("<option>W2 </option>");
-
-        cont.generalTags("</select>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-margin app-right app-margin-right'>");
-
-        //  cont.generalTags("<label class='app-left' id='search'> <i class='fas fa-search'></i><input type='text' class='app-round'> </label>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("</fieldset>");
-
-        database.selectQuery(['*'],'py_income').then(data=>{
-            this.loadIncomeTableLayout(data);
-
-            let totalIncome=0;
-            for(let i=0;i<data.length;i++){
-                totalIncome +=parseInt(data[i].ic_amount);
-            }
-            const income=new objectString();
-
-            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right'>Overall Income</b><label class='app-right app-half app-text-right'>$ "+totalIncome+"</label></div>");
-
-            income.generalTags("<div class=' app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right'>Tax</b><label class='app-right app-half app-text-right '>$ 100</label></div>");
-
-            income.generalTags("<div class='app-padding-left app-full app-left'> <b class='app-left app-half app-border-right'>Net Income</b><label class='app-right app-half app-text-right'>$ 100</label></div>");
-
-            document.querySelector("#totals-corner").innerHTML=income.toString();
-        })
-        cont.generalTags("<div class='app-left app-full app-margin-left app-round app-margin-right' style='width: 96%' id='table-container'></div>");
-
-        cont.generalTags("<div class='app-right app-border app-margin app-text-blue app-round ' style='width: 30%' id='totals-corner'></div>");
-        return cont.toString();
-
-    }
     loadIncomeTableLayout(data){
         const  list = new open_table();
 
@@ -493,38 +400,70 @@ class IncomeManagement{
         },1500);
 
     }
-    editIncomeUi(data,id){
+    editIncomeUi(data){
 
         const cont= new objectString();
 
-        let income=null;
-        for(let i=0;i<data.length;i++){
-            if(data[i].id==id){
-                income=data[i];
-            }
-        }
-
-        cont.generalTags("<div class='app-left app-white app-round' id='pop-forms'>");
+        cont.generalTags("<div class='app-left app-white app-round' id='pop-forms' style='position: relative'>");
 
         cont.generalTags("<h3 class='app-border-bottom app-left app-full app-padding-left'>Edit Income</h3>");
 
-        cont.generalTags("<div class='app-left  app-padding-left app-full app-border-bottom app-margin-bottom app-padding-top app-padding-bottom'><label class='app-left' style='width: 20%'>Description</label><input class='app-round app-border app-left app-margin-left' style='width:70%' value='"+income.ic_category+"'></div>");
-
-        cont.generalTags("<div class='app-left app-padding-left  app-full app-border-bottom app-margin-bottom app-padding-top app-padding-bottom'><label class='app-left' style='width: 20%'>Amount</label><input class='app-round app-border app-left app-margin-left' style='width:70%' value='"+income.ic_amount+"'></div>");
-
-        cont.generalTags("<div class='app-left app-padding-left  app-full app-border-bottom app-margin-bottom app-padding-top app-padding-bottom'><label class='app-left' style='width: 20%'>Date</label><input class='app-round app-border app-left app-margin-left' style='width:70%' value='"+income.ic_date+"'></div>");
+        [
+            {name:'Description',id:'ic_description',className:''},
+            {name:'Date',id:'ic_date',className: 'app-date'},
+            {name:'Amount',id:'ic_amount',className: ''},
+            {name:'Tax Applied',id:'ic_tax_applied',className: ""},
+            {name:'Total Deductions',id:'ic_tax_deduction',className: ''}
+        ].forEach( ({name,id,className})=>cont.generalTags("<div class='app-left  app-padding-left app-full app-border-bottom app-margin-bottom app-padding-top app-padding-bottom'><label class='app-left' style='width: 20%'>"+name+"</label><input id='"+id+"' class='"+className+" app-round app-border app-left app-margin-left' style='width:70%' value='"+data[id]+"'></div>"));
 
         cont.generalTags("<div class='app-left  app-padding-left app-full  app-margin-bottom app-padding-top app-padding-bottom'><label for='input-file' class='app-margin app-left app-round app-default-background app-hover-green app-padding'>Change File</label><input id='input-file' class='app-hide' type='file'>");
 
-        cont.generalTags('<label id="mkChanges" class=\'app-margin app-right app-round app-light-green app-hover-green app-padding\'>Update Income</label>');
+        cont.generalTags('<label id="mkChanges" data-id="'+data.id+'" class=\'app-margin app-right app-round app-light-green app-hover-green app-padding\'>Update Income</label>');
 
         cont.generalTags('<label id="canChanges" class=\'app-margin app-right app-round app-light-blue app-hover-green app-padding\'>Cancel</label>');
 
         cont.generalTags("</div>");
 
+        cont.generalTags("<div class='app-left app-loader' style='background: rgba(255,255,255,0.89);position: absolute;width: 100%;height: 100%;left:0%;top:0%;display: none;place-items: center'><div class='app-default-loader'></div><nav id='update_clause'>Updating ....</nav> </div>");
+
         cont.generalTags("</div>");
 
         return cont.toString();
+    }
+    editIncomeFunctions(current){
+
+        $(".app-date").datepicker({format:'mm/dd/yyyy'})
+
+        const mkChanges=document.getElementById("mkChanges");
+        if(mkChanges)
+            mkChanges.addEventListener('click',function (e) {
+
+                $(".app-loader").fadeIn(function () {
+                    $(this).css("display","grid");
+                    database.updateQuery('py_income',
+                        ['ic_description','ic_date','ic_amount','ic_tax_applied','ic_tax_deduction'],
+                        [$('#ic_description').val().trim(),
+                            $('#ic_date').val().trim(),
+                            $('#ic_amount').val().trim(),
+                            $('#ic_tax_applied').val().trim(),
+                            $('#ic_tax_deduction').val().trim()]," id="+e.target.getAttribute("data-id")
+                    ).then(rows=>{
+                        current.bodyContainer.innerHTML=current.loadIncomeLayout();
+                        current.incomeTableFunctions();
+                        $("#update_clause").html("Updated Succesfully..");
+                        setTimeout(()=>{
+                            $("#popup-window").fadeOut('fast');
+                        },500)
+
+                    });
+                });
+            });
+
+        const canChanges=document.getElementById("canChanges");
+        if(canChanges)
+            canChanges.addEventListener('click',function () {
+                console.log("cancel changes");
+            });
     }
     loadIncomeConfigLiabilitiesLayout(){
         const cont=new objectString();

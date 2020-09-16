@@ -37,7 +37,10 @@ function mainWindowHandler(){
       nodeIntegration: true,
       preload:path.join(__dirname,"./library/scripts/database.js"),
       devTools:true
-    },show:false,icon: path.join(__dirname,'./library/template/images/icons8-last-24-hours-100.png')
+    },
+    show:false,
+    icon: path.join(__dirname,'./library/template/images/icons8-last-24-hours-100.png'),
+    maximizable:true,
   });
 
   mainWindow.setPosition(500,50);
@@ -103,5 +106,5 @@ ipcMain.on('resize-me-please',(ev,args)=>{
   }
 });
 exports.handleDialog=function (){
-  dialog.showOpenDialog(browserWindow,);
+
 }

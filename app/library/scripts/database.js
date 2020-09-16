@@ -27,8 +27,8 @@ exports.createTableInstances=()=>{
         'create table IF NOT EXISTS  py_employees(id integer  PRIMARY KEY ,firstname text,secondname text,email text,status text,ssn text,dob text,city text,em_contacts text)',
         'create table IF NOT EXISTS sessions( status integer default 1,machine_type text,user_id text,keyfile text,package text)',
         'create table IF NOT EXISTS py_groups(id integer PRIMARY KEY ,basic text,tax text,overtime text,type text)',
-        'create table IF NOT EXISTS py_income(id integer PRIMARY KEY,ic_file text,ic_category text,ic_amount text,ic_date text,ic_has_category text,ic_description text)',
-        'create table IF NOT EXISTS py_expenses(id integer PRIMARY KEY ,description text,cost text ,file text,dateof text,others text) ',
+        'create table IF NOT EXISTS py_income(id integer PRIMARY KEY,ic_file text,ic_category text,ic_amount text,ic_date text,ic_has_category text,ic_description text,ic_tax_applied text,ic_tax_deduction text)',
+        'create table IF NOT EXISTS py_expenses(id integer PRIMARY KEY ,ex_description text,ex_cost text ,ex_file text,ex_dateof text,ex_others text,ex_category text,ex_category_name text) ',
         'create table IF NOT EXISTS py_payroll_payment(id integer PRIMARY KEY,employee_id text,group_id text,date_of text,by_who text ,by_id text,month_of text,status text,amount text,note text)'
          ,'create table IF NOT EXISTS py_liabilities(id INTEGER PRIMARY KEY,description text,amount text,category text,sub_category INTEGER DEFAULT 0,note text,data text,dateof text )',
         'create table IF NOT EXISTS py_assets(id INTEGER PRIMARY KEY,description text,amount text,category text,sub_category INTEGER DEFAULT 0,note text,data text,dateof text,m_category text)',
