@@ -73,10 +73,54 @@ class Itemization{
           if(menu=='reportButton'){
               menuContainer.innerHTML='';
               bodyElement.innerHTML=classUi.reportsHandler.loadGeneralStatementsReportLayout();
+              classUi.reportsHandler.reportsMicroFunctions();
+
           }
 
 
           console.log(menu);
       }
+    }
+}
+
+class Income{
+    constructor(database) {
+        this.database=database
+    }
+    getIncome(where_clause){
+        return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_income',where_clause).then(rows=>resolve(rows)))
+    }
+    getExpenses(where_clause){
+        return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_expenses',where_clause).then(rows=>resolve(rows)))
+    }
+    getLiabilities(where_clause){
+        return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_liabilities',where_clause).then(rows=>resolve(rows)))
+    }
+    getAssets(where_clause){
+        return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_assets',where_clause).then(rows=>resolve(rows)))
+    }
+}
+class General{
+    response(val,successText,failureText,cbk){
+        const holder= document.querySelector("#responseText");
+        holder.style.display='block';
+        if(val !=null){
+            holder.innerHTML=successText;
+        }else{
+            holder.querySelector("#responseText").innerHTML=failureText;
+        }
+        setTimeout(function () {
+            if(cbk !=undefined){
+                cbk();
+            }
+            holder.style.display='none';
+        },1500);
+
+    }
+    getToday(){
+        const data=new Date();
+
+        return data.getMonth()+" /"+data.getDate() + " /"+data.getFullYear();
+
     }
 }

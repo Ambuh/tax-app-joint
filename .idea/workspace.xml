@@ -21,13 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f1f47f76-bccc-435a-a47b-866445ad81a4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/main.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/main.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/library/scripts/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/database.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/expenseManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/expenseManagment.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/itemization.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/itemization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/library/styles/system.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/styles/system.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/reportManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/reportManagement.js" afterDir="false" />
     </list>
     <list id="8e2134ce-08f1-48ec-860d-3adbbb622ef7" name="managing userpages" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -198,7 +196,8 @@
       <workItem from="1599823792810" duration="1952000" />
       <workItem from="1600088972103" duration="942000" />
       <workItem from="1600146337591" duration="14037000" />
-      <workItem from="1600236369130" duration="11079000" />
+      <workItem from="1600236369130" duration="13643000" />
+      <workItem from="1600259072125" duration="3835000" />
     </task>
     <task id="LOCAL-00001" summary="managing userpages">
       <branch name="master" repository="E:\projects\node\sqlite" original="true" />

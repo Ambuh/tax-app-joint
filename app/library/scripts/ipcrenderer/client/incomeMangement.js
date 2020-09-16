@@ -2,7 +2,7 @@
 class IncomeManagement{
 
     constructor() {
-
+       this.General=new General();
     }
     loadIncomeMenu(){
         const cont= objectString();
@@ -134,7 +134,7 @@ class IncomeManagement{
                             (file.value !='' ? file.value :'0'),
                             desc.value,(category !=undefined ? $("#selected").val(): 0 ),
                             $("#inc_tax").val().trim() ,$("#inc_deductions").val().trim()]).then(rows=>{
-                        current.response(rows,"Income Added Successfully","Please Check your inputs",()=>{
+                        this.General.response(rows,"Income Added Successfully","Please Check your inputs",()=>{
                             desc.value="";
                             amount.value='';
                             date.value="";
@@ -382,22 +382,6 @@ class IncomeManagement{
         document.querySelector("#table-container").innerHTML=list.toString();
 
         this.incomeTableFunctions();
-
-    }
-    response(val,successText,failureText,cbk){
-        const holder= document.querySelector("#responseText");
-        holder.style.display='block';
-        if(val !=null){
-            holder.innerHTML=successText;
-        }else{
-            holder.querySelector("#responseText").innerHTML=failureText;
-        }
-        setTimeout(function () {
-            if(cbk !=undefined){
-                cbk();
-            }
-            holder.style.display='none';
-        },1500);
 
     }
     editIncomeUi(data){
@@ -856,7 +840,7 @@ class IncomeManagement{
                 {  database.insertQuery('py_liabilities',
                         ['description','amount','note','category','data'],
                         [desc.value,amount.value,tax_applied.value,category.value,JSON.stringify(charges)]).then(rows=>{
-                        response(rows,"Created Succesfully"," Error",()=>{
+                        this.General.response(rows,"Created Succesfully"," Error",()=>{
                             liabs_bodiesContainer.innerHTML=this.loadIncomeLiabilitiesDefaultViewLayout();
                         })
                     })
@@ -975,6 +959,7 @@ class IncomeManagement{
         return charges;
     }
     attachNode() {
+        const current=this;
         document.getElementById('crt-charge').addEventListener('click',function (e) {
             e.target.style.display='none';
 
@@ -982,7 +967,7 @@ class IncomeManagement{
 
             hidden_container.style.display='block';
 
-            hidden_container.innerHTML=this.loadChargesLayout();
+            hidden_container.innerHTML=current.loadChargesLayout();
             document.getElementById('addCharge').addEventListener('click',function () {
                 const percent=document.getElementById('percent');
                 const amount=document.getElementById('amounts');
