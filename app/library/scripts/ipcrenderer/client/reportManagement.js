@@ -2,7 +2,7 @@ class ReportManagement {
     constructor() {
         this.database=database;
         this.General=new General();
-        this.Income= new Income();
+        this.Income= new Income(this.database);
     }
 
     loadReportsMenu() {
@@ -64,7 +64,9 @@ class ReportManagement {
         cont.generalTags("</select>");
 
         cont.generalTags("<div class='app-left app-full app-padding' id='reports-container'></div>");
-        this.loadGeneralFinancialStatement("reports-container");
+        this.loadGeneralFinancialStatement("reports-container").then(rows=>{
+
+        });
         return cont.toString();
     }
 
@@ -194,27 +196,68 @@ class ReportManagement {
             options: {}
         });
     }
-    loadGeneralFinancialStatement(container){
+    loadGeneralFinancialStatement= async (container)=>{
 
-        this.Income.getAssets('').then(assets=>{
-            const cont= new objectString();
+        const current=this;
 
-            cont.generalTags("<div class='app-left app-full app-border-bottom'><h3 class='app-left app-full'></h3>  <nav class='ap-right app-margin-right'>"+this.General.getToday()+"</nav></div>");
+        const assets=await  this.Income.getAssets('');
 
-            cont.generalTags("<div class='app-left app-full'>");
+        const expenses=await this.Income.getExpenses(' ');
 
-            cont.generalTags("<div class='app-left app-full'>Assets</div>");
+        const income=await current.Income.getIncome('');
 
-            cont.generalTags("<div class='app-padding-right app-margin-right app-full'>");
+        const liabilities=await current.Income.getLiabilities('');
 
-            cont.generalTags("<div class='app-left app-full'Current Assets></div>");
+        console.log(liabilities);
 
+        const cont= new objectString();
+
+        const categories=this.Income.getAssetCategories();
+
+        cont.generalTags("<div class='app-right app-light-blue app-hover-light-green app-button-shape app-left app-text-center'>Print</div>");
+
+        cont.generalTags("<div class='app-left app-full app-border-bottom'><h3 class='app-left app-width-40'>Financial Statement</h3>  <h3 class='app-right app-margin-right app-width-40 app-text-right app-padding-right'>"+this.General.getToday()+"</h3></div>");
+
+        cont.generalTags("<div class='app-left app-width-70 app-margin-top app-padding'>");
+
+        [
+            {name:"Assets",attribute:1,
+                values:categories.map((name,key)=>({
+                    name:name,
+                    values:assets.map( asset=> asset.category== key | asset.category == name ? asset : null),identifier:key})) },
+            {name:"Liabilities",values:[],attribute: 0}
+        ].forEach( ({name,values,attribute})=>{
+            cont.generalTags(`<div class='app-left app-full app-font-bold '>${name}</div>`);
+
+            cont.generalTags("<div class='app-padding-left app-margin-right app-full app-margin-bottom'>");
+
+            values.forEach( ({name,values})=>{
+                if(values.length >0 & values[0] !=undefined){
+                    cont.generalTags(`<div class="app-left app-full"><div class='app-left app-full'>${name}</div>`);
+                    let totalIncome=0
+                    values.forEach( ( {description,amount,id} )=>{
+                        totalIncome+=parseInt(amount);
+                        cont.generalTags("<div class='app-left app-full app-padding-left'><div class='app-left app-full'> <label class='app-left app-half'>"+description+"</label><label class='app-left app-half app-text-right'>"+current.General.getMoney(amount)+"</label></div>")
+                        income.forEach( ({ic_description,ic_has_category,ic_tax_applied,ic_tax_deduction,ic_category,ic_amount})=>{
+                            ic_has_category==attribute & ic_category==id ? cont.generalTags(`<div class='app-left app-full app-padding-left'><label class="app-left app-half">${ic_description}</label><label class="app-left app-half app-text-right">${current.General.getMoney(ic_amount)}</label></label> </div>`) :null;
+                        });
+                        cont.generalTags("</div>");
+                    });
+                    cont.generalTags("<div class='app-font-bold app-full app-left'><label class='app-left app-half'>Total "+name+"</label><label class='app-left app-half app-text-right app-text-underline'>"+current.General.getMoney(totalIncome)+"</label> </div>")
+
+                    cont.generalTags("</div>");
+                }
+            });
             cont.generalTags("</div>");
+        });
+        //assets.forEach(({amount,category,description})=>cont.generalTags(`<div class='app-full app-left'><span class='app-left app-half'>${description}</span><span class='app-right app-half app-text-right'> ${current.General.getMoney(amount)}</span></div>`))
 
-            cont.generalTags("</div>");
+        cont.generalTags("</div>");
 
-            document.getElementById(container).innerHTML=(cont.toString());
-        })
+        cont.generalTags("</div>");
+
+        document.getElementById(container).innerHTML=(cont.toString());
+
 
     }
 }

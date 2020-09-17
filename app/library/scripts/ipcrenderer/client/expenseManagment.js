@@ -1,4 +1,3 @@
-
 class ExpenseManagement{
     constructor() {
         this.database=database;

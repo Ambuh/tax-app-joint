@@ -25,7 +25,9 @@
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/expenseManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/expenseManagment.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/itemization.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/itemization.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/payrollManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/payrollManagment.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/reportManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/reportManagement.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/loader_scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/loader_scripts.js" afterDir="false" />
     </list>
     <list id="8e2134ce-08f1-48ec-860d-3adbbb622ef7" name="managing userpages" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -198,6 +200,9 @@
       <workItem from="1600146337591" duration="14037000" />
       <workItem from="1600236369130" duration="13643000" />
       <workItem from="1600259072125" duration="3835000" />
+      <workItem from="1600274474146" duration="421000" />
+      <workItem from="1600274941670" duration="3768000" />
+      <workItem from="1600345618289" duration="5643000" />
     </task>
     <task id="LOCAL-00001" summary="managing userpages">
       <branch name="master" repository="E:\projects\node\sqlite" original="true" />
@@ -258,13 +263,13 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="550" y="119" width="748" height="499" key="EnvironmentVariablesDialog/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597480326040" />
-    <state x="504" y="192" key="FileChooserDialogImpl" timestamp="1599768286663">
+    <state x="504" y="192" key="FileChooserDialogImpl" timestamp="1600325760350">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="-1060" y="-17" key="FileChooserDialogImpl/0.0.1366.738/-1680.-282.1680.1020@-1680.-282.1680.1020" timestamp="1599578507124" />
     <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1599544925349" />
     <state x="-1060" y="265" key="FileChooserDialogImpl/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631628080" />
-    <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1599768286663" />
+    <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1600325760350" />
     <state width="1306" height="178" key="GridCell.Tab.0.bottom" timestamp="1600170913769">
       <screen x="-1680" y="-282" width="1680" height="1020" />
     </state>

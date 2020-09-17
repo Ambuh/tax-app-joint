@@ -103,7 +103,7 @@ class IncomeManagement{
                         height:"120px",
                         backgroundColor:"grey"
                     },function () {
-                        Income.loadIncomeHandlerFunction("#income_defenition",0);
+                        current.loadIncomeHandlerFunction("#income_defenition",0);
                     }).html("loading liabilities...");
                 });
             });
@@ -113,7 +113,7 @@ class IncomeManagement{
                         height:"120px",
                         backgroundColor:"grey"
                     },function () {
-                        Income.loadIncomeHandlerFunction("#income_defenition",1);
+                        current.loadIncomeHandlerFunction("#income_defenition",1);
                     }).html("loading Assets...");
                 });
             });
@@ -124,17 +124,18 @@ class IncomeManagement{
                 const date=document.querySelector('#inc_date');
                 const category=document.getElementById("assigned");
 
+                const current_date=new Date();
                 if(desc.value !="" || amount.value !="" || date.value !=""){
 
 
                     database.insertQuery('py_income',
                         ['ic_has_category','ic_amount','ic_date','ic_file','ic_description','ic_category','ic_tax_applied','ic_tax_deduction'],
                         [(category !=undefined ? category.value: 0 ),
-                            amount.value,date.value,
+                            amount.value,date.value.trim() !="" ? current_date.getMonth()+"/"+current_date.getDate()+"/"+current_date.getFullYear() : date.value ,
                             (file.value !='' ? file.value :'0'),
                             desc.value,(category !=undefined ? $("#selected").val(): 0 ),
                             $("#inc_tax").val().trim() ,$("#inc_deductions").val().trim()]).then(rows=>{
-                        this.General.response(rows,"Income Added Successfully","Please Check your inputs",()=>{
+                        current.General.response(rows,"Income Added Successfully","Please Check your inputs",()=>{
                             desc.value="";
                             amount.value='';
                             date.value="";
@@ -332,7 +333,7 @@ class IncomeManagement{
 
     }
     loadIncomeMenu(){
-        const cont= objectString();
+        const cont=new objectString();
 
         cont.generalTags("<div id='config' class='app-button-shape top-menu'><img src='images/incomes.png'/><label class='app-padding-top app-left'>Settings</label></div>");
 
@@ -364,6 +365,7 @@ class IncomeManagement{
         return cont.toString();
     }
     loadIncomeTableLayout(data){
+        console.log(data);
         const  list = new open_table();
 
         list.setColumnNames(['id','description','amount','Date','action']);
@@ -820,36 +822,38 @@ class IncomeManagement{
         });
     }
     loadIncomeLiabilitiesNewMicroFunctions(){
+        const current=this;
         const liabs_bodiesContainer=document.getElementById('liabilities-content-container');
 
         document.getElementById('v_liabs').addEventListener('click',function () {
-            liabs_bodiesContainer.innerHTML=this.loadIncomeLiabilitiesDefaultViewLayout();
+            liabs_bodiesContainer.innerHTML=current.loadIncomeLiabilitiesDefaultViewLayout();
         });
         document.getElementById('ad_liabs').addEventListener('click',()=>{
 
-            liabs_bodiesContainer.innerHTML=this.loadIncomeConfigNewLiabilitiesLayout();
+            liabs_bodiesContainer.innerHTML=current.loadIncomeConfigNewLiabilitiesLayout();
 
             document.getElementById('submit').addEventListener('click',function () {
                 const desc=document.getElementById('desc');
                 const amount=document.getElementById('amount');
                 const tax_applied=document.getElementById('tax');
                 const category=document.getElementById('category');
-                let charges=this.fetchNodes();
+                let charges=current.fetchNodes();
 
                 if(desc.value !='' && amount.value !='')
                 {  database.insertQuery('py_liabilities',
                         ['description','amount','note','category','data'],
                         [desc.value,amount.value,tax_applied.value,category.value,JSON.stringify(charges)]).then(rows=>{
-                        this.General.response(rows,"Created Succesfully"," Error",()=>{
-                            liabs_bodiesContainer.innerHTML=this.loadIncomeLiabilitiesDefaultViewLayout();
+                        current.General.response(rows,"Created Succesfully"," Error",()=>{
+                            liabs_bodiesContainer.innerHTML=current.loadIncomeLiabilitiesDefaultViewLayout();
                         })
                     })
                 }
             });
-           this.attachNode();
+           current.attachNode();
         })
     }
     loadIncomeAssetsDefaultLayout(){
+        const current=this;
         const cont= new objectString();
 
         cont.generalTags("<div class='app-header app-left app-full app-border-bottom '>");
@@ -868,7 +872,7 @@ class IncomeManagement{
 
         cont.generalTags("<div id='assets-content-container' class='app-left app-full'>");
 
-        cont.generalTags(this.loadIncomeAssetsDefaultViewLayout());
+        cont.generalTags(current.loadIncomeAssetsDefaultViewLayout());
 
         cont.generalTags("</div>")
 
@@ -916,9 +920,13 @@ class IncomeManagement{
 
         cont.generalTags("<div class='app-left app-full app-padding-left app-margin-bottom'><label class='app-width-25 app-left'>Select Category</label> <select id='cat' class='app-border app-width-40 app-left app-margin-left app-round'>");
 
-        cont.generalTags('<option>Fixed Asset</option>');
+        cont.generalTags('<option value="0">Fixed Asset</option>');
 
-        cont.generalTags('<option>Current Asset</option>');
+        cont.generalTags('<option value="1">Current Asset</option>');
+
+        cont.generalTags("<option value='3'>Long Term Receivables (Investment ,Advances)</option>")
+
+        cont.generalTags("<option value='4'>Property Plant and Equipment</option>")
 
         cont.generalTags('</select></div>');
 

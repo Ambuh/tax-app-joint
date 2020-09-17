@@ -26,15 +26,16 @@ function Toast(/*content*/cont,/*callBack*/callBack){
     return ui;
 }
 
-function objectString(){
-    let data=[];
-    return {
-        generalTags:function(string){
-            data.push(string);
-        },toString:function(){
-            return data.join(" ");
-        }
+class objectString{
 
+    constructor() {
+        this.data=[];
+    }
+    generalTags(string){
+        this.data.push(string);
+    }
+    toString(){
+        return this.data.join(" ");
     }
 }
 

@@ -1,4 +1,3 @@
-
 class Itemization{
      menus=[
         {name:'income',id:'incButton'},
@@ -88,7 +87,15 @@ class Income{
         this.database=database
     }
     getIncome(where_clause){
-        return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_income',where_clause).then(rows=>resolve(rows)))
+
+        return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_income',where_clause).then(rows=>{
+
+            let data=[];
+
+            rows.forEach(row=> data[parseInt(row.id)]=row);
+
+            resolve(data)
+        }))
     }
     getExpenses(where_clause){
         return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_expenses',where_clause).then(rows=>resolve(rows)))
@@ -98,6 +105,9 @@ class Income{
     }
     getAssets(where_clause){
         return new Promise( (resolve)=>this.database.selectQuery(['*'],'py_assets',where_clause).then(rows=>resolve(rows)))
+    }
+    getAssetCategories(){
+       return ["Fixed Asset","Current Asset","Long Term Receivables (Investment ,Advances)","Property Plant and Equipment"]
     }
 }
 class General{
@@ -122,5 +132,11 @@ class General{
 
         return data.getMonth()+" /"+data.getDate() + " /"+data.getFullYear();
 
+    }
+    getMoney(money){
+      return parseInt(money).toLocaleString("en-US",{
+            style:"currency",
+            currency:"USD"
+        })
     }
 }

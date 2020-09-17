@@ -1,6 +1,3 @@
-let payrollSettingsContainer={
-
-}
 let roles_privilege=[
     {
         header:"Project Management",
