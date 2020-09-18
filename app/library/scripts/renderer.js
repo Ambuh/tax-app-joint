@@ -128,7 +128,7 @@ function alert(text){
     $('#popup-window').removeClass('app-hide').fadeIn('fast',function () {
         const cont= new objectString();
 
-        cont.generalTags("<div class='app-white app-round app-width-30 app-padding' >");
+        cont.generalTags("<div class='app-white app-round app-full app-padding' >");
 
         cont.generalTags("<div class='app-full app-left app-text-center'>"+text+"</div>");
 

@@ -23,27 +23,6 @@ class TaxCalculatorManagement{
 
         cont.generalTags("<div class='app-padding-left app-padding app-left tax-menu app-margin-bottom app-default-background'>Results</div>");
 
-        cont.generalTags("<div class='app-left app-full'>");
-
-        cont.generalTags("<div class='app-left'>");
-
-        cont.generalTags("<label class='app-left app-padding app-margin-left'>Select States</label>")
-
-        cont.generalTags("<select class='app-round app-border app-padding app-margin-left'>");
-
-        const states=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','kentucky','Louisiana','Maine',
-            'MaryLand','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska',' Nevada','New Hampshire','New Jersey','New Mexico','New York',
-            'North Carolina','North Dakota','Ohio',"Oklahoma",'Oregon','Pennsylvania','rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
-            'Washington','West Virginia','Wisconsin','Wyoming'];
-
-        states.forEach(state=>cont.generalTags("<option>"+state+"</option>"));
-
-        cont.generalTags("</select>");
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("</div>");
-
         cont.generalTags("</div>");
 
         cont.generalTags("<div id='tax-holder-container' class='app-left app-full app-padding-top'>");
@@ -72,9 +51,24 @@ class TaxCalculatorManagement{
 
         current.User.getUsers("where id="+user.user_id).then(user=>{
 
+            console.log(user);
             const cont= new objectString();
 
             cont.generalTags("<div class='app-left app-width-40 app-margin-bottom'>");
+
+            cont.generalTags("<div class='app-left app-full app-margin-bottom'>");
+
+            cont.generalTags("<label class='app-left app-margin-top'>Select States</label>")
+
+            cont.generalTags("<select class='app-round app-border app-padding app-margin-left' id='city'>");
+
+            cont.generalTags(user[0].city =='' ? '<option value="-2">Select State</option>' : "<option value='"+user[0].city+"'>"+current.General.getStates(user[0].city)+"</option>" );
+
+            current.General.getStates().forEach( (state,key)=>cont.generalTags("<option value='"+key+"'>"+state+"</option>"));
+
+            cont.generalTags("</select>");
+
+            cont.generalTags("</div>");
 
             [
                 {name:"first name and middle initial",id:"user" ,className:''},
@@ -162,6 +156,10 @@ class TaxCalculatorManagement{
                         taxProcess[input.id]=input.value;
                 });
 
+                taxProcess['city']=$("select#city").val();
+
+                console.log(taxProcess);
+
                 current.User.updateUserDetails(taxProcess,buttonPersonalDetails.getAttribute('data-user')).then(rows=>{
                     selections.forEach(selection=>{
                         if(selection.checked==true)
@@ -200,7 +198,15 @@ class TaxCalculatorManagement{
         const addIncome=document.getElementById("addIncome");
         if(addIncome)
             addIncome.addEventListener('click',_=>{
-                current.incomeButtonControl({description:"description",amount:"2000",date:"22/03/2020",tax:"120",deductions:"1500",taxable:"1700"});
+                current.handleTaxLoadIncomeChild.bind(current);
+                current.handleTaxLoadIncomeChild({
+                    ic_amount:$("#amount").val()
+                    ,ic_date:$("#date").val() ,
+                    ic_description:$("#desc").val().trim(),
+                    ic_tax_applied:$("#tax").val() ,
+                    ic_tax_deduction:$("#ded").val()
+                });
+                //current.incomeButtonControl({description:"description",amount:"2000",date:"22/03/2020",tax:"120",deductions:"1500",taxable:"1700"});
             });
         $(".app-date").unbind().datepicker({
             changeMonth: true,
@@ -219,10 +225,47 @@ class TaxCalculatorManagement{
         if(taxMenus)
             taxMenus.forEach(taxMenu=>{
                 taxMenu.addEventListener('click',function () {
-                   alert("Hello ambrose");
+                   $(".tax-menu").removeClass("app-text-underline");
+                    taxMenu.classList.add('app-text-underline');
+                    current.handleTaxMenuClicks(taxMenu.id);
                 });
             });
 
+        const incomeSystem=document.getElementById("incomeSystem");
+        if(incomeSystem)
+            incomeSystem.addEventListener('click',function () {
+                const incomes=document.querySelectorAll(" #income-container div");
+                const incomeContainer=document.getElementById("income-container");
+
+                current.Income.getIncome().then(rows=>rows.forEach(current.handleTaxLoadIncomeChild.bind(current)));
+                $("#incomeSystem").fadeOut('fast');
+                });
+
+    }
+    handleTaxLoadIncomeChild(row,current){
+        const cont= new objectString();
+
+        cont.generalTags("<div class='app-round app-margin-left app-left app-margin-bottom app-width-70 app-margin-right app-border app-border-light-blue'>");
+
+        cont.generalTags("<div class='app-left app-padding app-width-80 app-text-center'>");
+
+        cont.generalTags("<label class='app-left app-full'>"+this.General.ucFirst(row.ic_description)+"</label>");
+
+        cont.generalTags("<span>"+this.General.getMoney(row.ic_amount)+"</span>");
+
+        cont.generalTags("</div>")
+        cont.generalTags("<div style='font-size: 40px' class='app-hover-red app-left app-width-20 app-text-center app-pointer app-text-red'>&times;</div>");
+
+        cont.generalTags("<div>");
+
+        $("#income-container").append(cont.toString());
+    }
+    handleTaxMenuClicks(id){
+        if(id==''){
+
+        }else{
+
+        }
     }
     loadGeneralTaxEstimationSpouses(status){
         const current=this;
@@ -247,7 +290,13 @@ class TaxCalculatorManagement{
 
         cont.generalTags('<input type="hidden" id="method" value="single">');
 
-        cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Filling Single</h3>");
+        cont.generalTags("<div class='app-left app-full'>");
+
+        cont.generalTags("<h3 class='app-left app-padding-left app-border-bottom'>Filling Single</h3>");
+
+        cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-3'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>")
+
+        cont.generalTags("</div>");
 
         cont.generalTags("<div class='app-left app-full'>");
 
@@ -258,8 +307,6 @@ class TaxCalculatorManagement{
         cont.generalTags("</div>");
 
         cont.generalTags("<div class='app-left app-half' >");
-
-        cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-3'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>")
 
         cont.generalTags("<div class='app-left app-full' id='income-container'></div>");
 
@@ -387,20 +434,10 @@ class TaxCalculatorManagement{
 
         current.calculatorMacroFunctions();
     }
-    incomeButtonControl(/*object*/ object){//TODO :
-        const cont=new objectString();
-
-        const current=this;
-
-        cont.generalTags("<div class='app-left app-round app-width-60 app-margin-left app-margin-right app-margin-bottom app-border'>"+current.General.ucFirst(object.description)+" @ <small class='app-money'>$"+object.amount+"</small> </div>");
-
-        $("#income-container").append(cont.toString());
-
-    }
     loadGeneralIncomeInputLayout=_=>{
         const cont=new objectString();
 
-        cont.generalTags("<button class='app-round app-border app-margin-left'>Load Income from System</button>");
+        cont.generalTags("<button class='app-round app-border app-margin-left' id='incomeSystem'>Load Income from System</button>");
 
         cont.generalTags("<div class='app-left app-margin-left app-margin-bottom'>Wages, salaries, tips, etc. Attach Form(s) W-2 </div>");
 
