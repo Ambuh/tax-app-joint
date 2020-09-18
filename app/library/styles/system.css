@@ -128,7 +128,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .app-sepia{filter:sepia(75%)}.app-sepia-max,.app-hover-sepia:hover{filter:sepia(100%)}.app-sepia-min{filter:sepia(50%)}
 .app-tiny{font-size:10px!important}.app-small{font-size:12px!important}.app-medium{font-size:15px!important}.app-large{font-size:18px!important}
 .app-xlarge{font-size:24px!important}.app-xxlarge{font-size:36px!important}.app-xxxlarge{font-size:48px!important}.app-jumbo{font-size:64px!important}
-.app-left-align{text-align:left!important}.app-right-align{text-align:right!important}.app-justify{text-align:justify!important}.app-center{text-align:center!important}
+.app-left-align{text-align:left!important}.app-right-align{text-align:right!important}.app-justify{text-align:justify!important}.app-center{text-align:center!important;place-items: center}
 .app-border-0{border:0!important}.app-border{border:1px solid #ccc!important}
 .app-border-top{border-top:1px solid #ccc!important}.app-border-bottom{border-bottom:1px solid #ccc!important}
 .app-border-left{border-left:1px solid #ccc!important}.app-border-right{border-right:1px solid #ccc!important}
@@ -240,6 +240,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 b{font-size: 11px}.app-width-30{width:30% !important}.justify-center{justify-content: space-evenly}::-webkit-scrollbar-track{ -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); background-color: #F5F5F5;}::-webkit-scrollbar{ width: 10px; background-color: #F5F5F5;}::-webkit-scrollbar-thumb{background-color: #e1eceb;border: 1px solid #e1eceb;border-radius: 10px;}input:focus{outline-offset: revert;outline: none; }@font-face {font-family: money; src: url("Noto_Sans_JP/NotoSansJP-Light.otf");}
 .app-overflow-hidden{overflow: hidden}.app-text-underline{ text-decoration: underline}
 .app-flex{ display: flex;}.app-flex-column{ flex-direction: column; }
+.app-grid{display: grid}
 .app-default-loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
@@ -252,4 +253,8 @@ b{font-size: 11px}.app-width-30{width:30% !important}.justify-center{justify-con
 @keyframes d_spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+#app-container-small{
+    height: 80vh;
+    overflow-y:scroll !important;
 }

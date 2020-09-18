@@ -1,21 +1,27 @@
 class TaxCalculatorManagement{
     constructor() {
+        this.General=new General();
+        this.database=database;
+        this.Income=new Income(this.database);
+        this.User= new User();
     }
 
-    loadGeneralCalculatorLayout(){
+    loadGeneralCalculatorLayout (){
+        const current=this;
+
         const cont= new objectString();
 
         cont.generalTags("<h3 class='app-left app-full app-padding-left app-border-bottom'>Tax Preparation</h3>");
 
-        cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background app-text-underline'>Basic Info</div>");
+        cont.generalTags("<div class='app-padding-left app-padding app-left tax-menu app-margin-bottom app-default-background app-text-underline'>Basic Info</div>");
 
-        cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background'>Load Income</div>");
+        cont.generalTags("<div class='app-padding-left app-padding app-left tax-menu app-margin-bottom app-default-background'>Load Income</div>");
 
-        cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background'>Deductions</div>");
+        cont.generalTags("<div class='app-padding-left app-padding app-left tax-menu app-margin-bottom app-default-background'>Deductions</div>");
 
-        cont.generalTags("<div class='app-padding-left app-padding app-left  app-margin-bottom app-default-background'>Credit</div>");
+        cont.generalTags("<div class='app-padding-left app-padding app-left tax-menu app-margin-bottom app-default-background'>Credit</div>");
 
-        cont.generalTags("<div class='app-padding-left app-padding app-left  app-margin-bottom app-default-background'>Results</div>");
+        cont.generalTags("<div class='app-padding-left app-padding app-left tax-menu app-margin-bottom app-default-background'>Results</div>");
 
         cont.generalTags("<div class='app-left app-full'>");
 
@@ -25,7 +31,7 @@ class TaxCalculatorManagement{
 
         cont.generalTags("<select class='app-round app-border app-padding app-margin-left'>");
 
-        const states=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','kentucky','Loisiana','Maine',
+        const states=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','kentucky','Louisiana','Maine',
             'MaryLand','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska',' Nevada','New Hampshire','New Jersey','New Mexico','New York',
             'North Carolina','North Dakota','Ohio',"Oklahoma",'Oregon','Pennsylvania','rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
             'Washington','West Virginia','Wisconsin','Wyoming'];
@@ -42,9 +48,10 @@ class TaxCalculatorManagement{
 
         cont.generalTags("<div id='tax-holder-container' class='app-left app-full app-padding-top'>");
 
-        cont.generalTags(loadGeneralCalculatorLayoutPersonalDetails())
+        cont.generalTags(current.loadGeneralCalculatorLayoutPersonalDetails())
 
         cont.generalTags("</div>");
+
         return cont.toString();
 
     }
@@ -57,441 +64,393 @@ class TaxCalculatorManagement{
 
         return cont.toString();//TODO is this correct need to connect with the usa.government api to fetch taxation
     }
-}
-/* ---TAX CALCULATOR MODULE START--*/
-const  loadGeneralCalculatorLayout=()=>{
-    const cont= new objectString();
 
-    cont.generalTags("<h3 class='app-left app-full app-padding-left app-border-bottom'>Tax Preparation</h3>");
+    loadGeneralCalculatorLayoutPersonalDetails (){//TODO : fetch personal data from the database
+        const current=this;
 
-    cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background app-text-underline'>Basic Info</div>");
+        let user=current.User.getCurrentUser();
 
-    cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background'>Load Income</div>");
+        current.User.getUsers("where id="+user.user_id).then(user=>{
 
-    cont.generalTags("<div class='app-padding-left app-padding app-left   app-margin-bottom app-default-background'>Deductions</div>");
+            const cont= new objectString();
 
-    cont.generalTags("<div class='app-padding-left app-padding app-left  app-margin-bottom app-default-background'>Credit</div>");
+            cont.generalTags("<div class='app-left app-width-40 app-margin-bottom'>");
 
-    cont.generalTags("<div class='app-padding-left app-padding app-left  app-margin-bottom app-default-background'>Results</div>");
+            [
+                {name:"first name and middle initial",id:"user" ,className:''},
+                {name:"Surname",id:"surname" ,className:''},
+                {name:"Home Address (number and street)",id:"locale" ,className:''},
+                {name:"Apt No.",id:"apartment_no" ,className:''},
+                {name:"Social Service Number.",id:"social" ,className:''},
+                {name:"Date Of Birth.",id:"dob" ,className:'app-date'},
+            ].forEach( ({name,id,className})=>{
+                cont.generalTags(`<label class='app-full app-left'>${current.General.ucFirst(name)}</label>`);
 
-    cont.generalTags("<div class='app-left app-full'>");
+                cont.generalTags(`<input value="${user[0][id] !=undefined ? user[0][id] : ''}" style="padding-left: 5% !important;" class='${className} app-round app-border app-padding app-width-70' id='${id}'>`)
+            });
 
-    cont.generalTags("<div class='app-left'>");
+            cont.generalTags("</div>");
 
-    cont.generalTags("<label class='app-left app-padding app-margin-left'>Select States</label>")
+            cont.generalTags("<div class='app-left app-half'>");
 
-    cont.generalTags("<select class='app-round app-border app-padding app-margin-left'>");
+            cont.generalTags('<label class="app-left app-full">Are you a foreigner</label>')
 
-    const states=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','kentucky','Loisiana','Maine',
-        'MaryLand','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska',' Nevada','New Hampshire','New Jersey','New Mexico','New York',
-        'North Carolina','North Dakota','Ohio',"Oklahoma",'Oregon','Pennsylvania','rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
-        'Washington','West Virginia','Wisconsin','Wyoming'];
+            cont.generalTags("<input class=\"app-radio app-left app-margin-left\" type=\"radio\" id=\"foreigner\">");
 
-    states.forEach(state=>cont.generalTags("<option>"+state+"</option>"));
+            cont.generalTags("<div class='app-full app-margin-left app-padding app-round app-left app-light-grey' id='foreign-container' style='height: 0px;overflow: hidden;display: none'>");
 
-    cont.generalTags("</select>");
+            cont.generalTags("<div class='app-left app-full app-margin-left app-margin-bottom'><label class='app-left app-width-30'>Foreign country name</label><input id='foreign_country_name' class='app-left app-round app-padding app-border app-width-60' type='text'></div>");
 
-    cont.generalTags("</div>");
+            cont.generalTags("<div class='app-left app-full app-margin-left app-margin-bottom'><label class='app-left app-width-30'>Foreign province/state/country</label><input id='foreign_country_state' class='app-left app-round app-padding app-border app-width-60' type='text'></div>");
 
-    cont.generalTags("</div>");
+            cont.generalTags("<div class='app-left app-full app-margin-left'><label class='app-left app-width-30'>Foreign postal code</label><input id='foreign_postal_code' class='app-left app-round app-padding app-border app-width-60' type='text'></div>");
 
-    cont.generalTags("</div>");
+            cont.generalTags("</div>");
 
-    cont.generalTags("<div id='tax-holder-container' class='app-left app-full app-padding-top'>");
+            cont.generalTags("<fieldset class='app-full app-left app-margin app-padding app-round'><legend>Filing Status</legend>");
 
-    cont.generalTags(loadGeneralCalculatorLayoutPersonalDetails())
+            [
+                {name:'Single',id:'sigle'},
+                {name:'Married Filing Jointly',id:'jointly'},
+                {name:'Married Filing Separately',id:'separately'},
+                {name:'Head Of Household',id:'household'},
+                {name:'Qualifying widow(er) (QW)',id:'widow'},
+            ].forEach(({name,id})=>{
+                cont.generalTags(`<div class='app-left app-padding-left app-full'><label for='${id}' class="app-half">${name}</label><input type='radio' id='${id}' class='app-margin-top app-margin-left app-radio'></div>`);
+            });
+            cont.generalTags("</fieldset>");
 
-    cont.generalTags("</div>");
-    return cont.toString();
+            cont.generalTags("<div class='app-right app-half app-padding-left app-margin-bottom'>");
 
-}, calculatorFunctions=_=>{
+            cont.generalTags("<label class='app-right app-padding app-margin app-hover-green app-button-shape' data-user='"+user[0].id+"' id='personal_details'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i> </label>");
 
-},loadGeneralCalculatorMenusLayout=_=>{
-    const cont= new objectString();
+            cont.generalTags("</div>");
 
-    cont.generalTags("<div class='app-button-shape app-default-background'><i class='fas fa-cogs'></i> Settings</div>");
+            document.getElementById('tax-holder-container').innerHTML=cont.toString();
 
-    cont.generalTags("<div class='app-button-shape app-default-background'><i class='fas fa-calendar'></i> Tax Preparation</div>");
+            current.calculatorMacroFunctions(user[0]);
+            current.checkInstanceProcess(user[0]);
+        });
 
-    return cont.toString();//TODO is this correct need to connect with the usa.government api to fetch taxation
-},loadGeneralCalculatorLayoutPersonalDetails=_=>{//TODO : fetch personal data from the database
+    }
+    checkInstanceProcess(user){
+        if(user.locale.trim() =='')
+            this.General.Toast("Personal information will be saved for later use",()=>{
 
-    database.selectQuery(['*'],'frontend_users').then(users=>{
-       const cont= new objectString();
+            });
+    }
+    calculatorMacroFunctions(user){
+        const current=this;
+        const selections=document.querySelectorAll(".app-radio");
+        let taxProcess={};
+        if(selections)
+            selections.forEach(selection=>{
+                selection.addEventListener('click',function (e) {
+                    selections.forEach(sel=>sel.checked=false);
 
-       cont.generalTags("<div class='app-left app-half app-padding-left app-margin-bottom'>");
+                    selection.checked=true;
+                });
+            })
+        const buttonPersonalDetails=document.getElementById('personal_details');
+        if(buttonPersonalDetails)
+            buttonPersonalDetails.addEventListener('click',function () {
+                let status='single';
+                const inputs=document.querySelectorAll("input");
 
-       cont.generalTags("<label class='app-full app-left'>First name and middle initial</label>");
+                inputs.forEach(input=>{
+                    if(input.value !=="on")
+                        taxProcess[input.id]=input.value;
+                });
 
-       cont.generalTags("<input class='app-round app-border app-padding app-width-70' id='first_name'>")
+                current.User.updateUserDetails(taxProcess,buttonPersonalDetails.getAttribute('data-user')).then(rows=>{
+                    selections.forEach(selection=>{
+                        if(selection.checked==true)
+                            status=selection.id;
 
-       cont.generalTags("</div>");
+                    });
+                    if(status !=null)
+                        current.loadGeneralTaxEstimationSpouses(status);
+                });
+            });
+        const foreign=document.getElementById('foreigner');
+        if(foreign)
+            foreign.addEventListener('click',_=>{
+                $("#foreign-container").fadeIn(function () {
+                    $(this).animate({height:"24vh"});
+                })
+            });
 
-        cont.generalTags("<div class='app-left app-half app-padding-left app-margin-bottom'>");
+        const toggle=document.getElementById('toggle');
+        if(toggle)
+            toggle.addEventListener('click',_=>{
+                $("#spouse").animate({
+                    width:"0",
+                    height:0
+                },function () {
+                    $("#spouse").fadeIn("fast");
+                    $("#income").fadeIn("fast");
+                });
+            });
 
-        cont.generalTags("<label class='app-full app-left'>Surname</label>");
+        const incomeButton=document.getElementById('step-3');
+        if(incomeButton)
+            incomeButton.addEventListener('click',_=>{
+                current.loadGeneralDependentsLayout();
+            });
+        const addIncome=document.getElementById("addIncome");
+        if(addIncome)
+            addIncome.addEventListener('click',_=>{
+                current.incomeButtonControl({description:"description",amount:"2000",date:"22/03/2020",tax:"120",deductions:"1500",taxable:"1700"});
+            });
+        $(".app-date").unbind().datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "mm/dd/yy",
+            yearRange: "-90:+00"
+        });
+        const fileUpload=document.getElementById('fileUpload');
+        if(fileUpload)
+            fileUpload.addEventListener('click',function () {
+                const mainWindow=remote.require("./app");
+                mainWindow.getFileFromUser();
+            });
 
-        cont.generalTags("<input class='app-round app-border app-padding app-width-70' id='first_name'>")
+        const taxMenus=document.querySelectorAll(".tax-menu");
+        if(taxMenus)
+            taxMenus.forEach(taxMenu=>{
+                taxMenu.addEventListener('click',function () {
+                   alert("Hello ambrose");
+                });
+            });
+
+    }
+    loadGeneralTaxEstimationSpouses(status){
+        const current=this;
+        //TODO :handle all layout jointly ,separately,household,window(er) console.log(status);
+        if(status=='jointly'){
+            loadGeneralJointPayerLayout();
+        }else if(status=='separately'){
+
+        }else if(status=='household'){
+
+        }else if(status=='window'){
+
+        }else {
+           current.loadSingleTaxPayerLayout();
+        }
+
+    }
+    loadSingleTaxPayerLayout(){
+        const  current=this;
+
+        const cont=new objectString();
+
+        cont.generalTags('<input type="hidden" id="method" value="single">');
+
+        cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Filling Single</h3>");
+
+        cont.generalTags("<div class='app-left app-full'>");
+
+        cont.generalTags("<div class='app-left app-half'>");
+
+        cont.generalTags(current.loadGeneralIncomeInputLayout());
 
         cont.generalTags("</div>");
 
-        cont.generalTags("<div class='app-left app-half app-padding-left app-margin-bottom'>");
+        cont.generalTags("<div class='app-left app-half' >");
 
-        cont.generalTags("<label class='app-full app-left'>Home Address (number and street)</label>");
+        cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-3'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>")
 
-        cont.generalTags("<input class='app-round app-border app-padding app-width-70' id='first_name'>")
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-left app-half app-padding-left app-margin-bottom'>");
-
-        cont.generalTags("<label class='app-full app-left'>Apt No.</label>");
-
-        cont.generalTags("<input class='app-round app-border app-padding app-width-70' id='first_name'>")
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-left app-half app-padding-left app-margin-bottom'>");
-
-        cont.generalTags("<label class='app-full app-left'>Social Service Number</label>");
-
-        cont.generalTags("<input class='app-round app-border app-padding app-width-70' id='first_name'>")
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-left app-half app-padding-left app-margin-bottom'>");
-
-        cont.generalTags("<label class='app-full app-left'>Date of Birth</label>");
-
-        cont.generalTags("<input class='app-round app-border app-padding app-width-70 app-date' id='first_name'>")
-
-        cont.generalTags("</div>");
-
-        cont.generalTags("<div class='app-left app-full app-padding-left app-margin-bottom'>");
-
-        cont.generalTags('<label class="app-left">Are you a foreigner</label> <input class="app-radio  app-margin-left" type="radio" id="foreigner">')
-
-        cont.generalTags("<div class='app-width-90 app-margin-left app-padding app-round app-left app-light-grey' id='foreign-container' style='height: 0px;overflow: hidden;display: none'>");
-
-        cont.generalTags("<div class='app-left app-full app-margin-left app-margin-bottom'><label class='app-left app-width-30'>Foreign country name</label><input class='app-left app-round app-padding app-border app-width-60' type='text'></div>");
-
-        cont.generalTags("<div class='app-left app-full app-margin-left app-margin-bottom'><label class='app-left app-width-30'>Foreign province/state/country</label><input class='app-left app-round app-padding app-border app-width-60' type='text'></div>");
-
-        cont.generalTags("<div class='app-left app-full app-margin-left'><label class='app-left app-width-30'>Foreign postal code</label><input class='app-left app-round app-padding app-border app-width-60' type='text'></div>");
+        cont.generalTags("<div class='app-left app-full' id='income-container'></div>");
 
         cont.generalTags("</div>");
 
         cont.generalTags("</div>");
 
-        cont.generalTags("<fieldset class='app-width-90 app-margin app-padding app-round'><legend>Filing Status</legend>");
+        document.getElementById('tax-holder-container').innerHTML=cont.toString();
+        current.calculatorMacroFunctions();
+    }
+    loadGeneralJointPayerLayout(){
+        const cont= new objectString();
 
-        cont.generalTags("<div class='app-left app-padding-left'><label for='single'>Single</label><input type='radio' id='single' class='app-margin-top app-margin-left app-radio'></div>");
+        const current=this;
+        cont.generalTags('<input type="hidden" id="method" value="joint">');
 
-        cont.generalTags("<div class='app-left app-padding-left'><label for='jointly'>Married Filing Jointly</label><input type='radio' id='jointly' class='app-margin-top app-margin-left app-radio'></div>");
+        cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Filling Jointly</h3>");
 
-        cont.generalTags("<div class='app-left app-padding-left'><label for='separately'>Married Filing Separately</label><input type='radio' id='separately' class='app-margin-top app-margin-left app-radio'></div>");
+        cont.generalTags("<div class='app-left app-full'>");
 
-        cont.generalTags("<div class='app-left app-padding-left'><label for='household'>Head Of Household</label><input type='radio' id='household' class='app-margin-top app-margin-left app-radio'></div>");
+        cont.generalTags("<div class='app-left app-half' id='spouse' style='overflow: hidden'>");
 
-        cont.generalTags("<div class='app-left app-padding-left'><label for='household'>Qualifying widow(er) (QW)</label><input type='radio' id='window' class='app-margin-top app-margin-left app-radio'></div>");
+        cont.generalTags("<div class='app-left app-full app-padding-left'>");
+
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Spouse First and Middle initial</label>");
+
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text'>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("<div class='app-left app-full app-padding-left'>");
+
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Last name</label>");
+
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text'>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("<div class='app-left app-full app-padding-left'>");
+
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Spouse social security number </label>");
+
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text'>");
+
+        cont.generalTags("</div>");
+
+        cont.generalTags("<fieldset class='app-left app-width-90 app-padding-left app-margin app-round'>");
+
+        cont.generalTags("<legend>Presidential Election Campaign</legend>");
+
+        cont.generalTags("<small class='app-full app-left'>Check here if you want $3 to go to this fund</small>");
+
+        cont.generalTags("<label class='app-left app-margin-right'>You</label>");
+
+        cont.generalTags("<input type='radio' class='app-radio app-left app-margin-right'>");
+
+        cont.generalTags("<label class='app-left app-margin-right'>Spouse</label>");
+
+        cont.generalTags("<input type='radio' class='app-radio app-left app-margin-right'>");
 
         cont.generalTags("</fieldset>");
 
-        cont.generalTags("<div class='app-right app-half app-padding-left app-margin-bottom'>");
+        cont.generalTags("<div class='app-left app-full'><label class='app-left app-margin'>Your spouse as a dependent</label><input class='app-left app-radio' type='radio'></div>");
 
-        cont.generalTags("<label class='app-right app-padding app-margin app-hover-green app-button-shape' id='personal_details'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i> </label>");
+        cont.generalTags("<div class='app-button-shape app-hover-green app-right' id='toggle'>Handle Income<i class='fas fa-arrow-alt-circle-right app-right'></i> </div>");
 
         cont.generalTags("</div>");
 
-       document.getElementById('tax-holder-container').innerHTML=cont.toString();
-       calculatorMacroFunctions();
-    });
-
-},calculatorMacroFunctions=_=>{
-  const selections=document.querySelectorAll(".app-radio");
-  if(selections)
-      selections.forEach(selection=>{
-          selection.addEventListener('click',function (e) {
-             selections.forEach(sel=>sel.checked=false);
-
-             selection.checked=true;
-          });
-      })
-  const buttonPersonalDetails=document.getElementById('personal_details');
-  if(buttonPersonalDetails)
-      buttonPersonalDetails.addEventListener('click',function () {
-          let status=null;
-        selections.forEach(selection=>{
-            if(selection.checked==true)
-                status=selection.id;
-
-        });
-
-        if(status !=null)
-            loadGeneralTaxEstimationSpouses(status);
-
-      });
-  const foreign=document.getElementById('foreigner');
-  if(foreign)
-      foreign.addEventListener('click',_=>{
-         $("#foreign-container").fadeIn(function () {
-            $(this).animate({height:"24vh"});
-         })
-      });
+        cont.generalTags("<div class='app-left app-half app-hidden' id='income'>");
 
-  const toggle=document.getElementById('toggle');
-  if(toggle)
-      toggle.addEventListener('click',_=>{
-         $("#spouse").animate({
-             width:"0",
-             height:0
-         },function () {
-             $("#spouse").fadeIn("fast");
-            $("#income").fadeIn("fast");
-         });
-      });
+        cont.generalTags(current.loadGeneralIncomeInputLayout());
 
-  const incomeButton=document.getElementById('step-3');
-  if(incomeButton)
-      incomeButton.addEventListener('click',_=>{
-         loadGeneralDependentsLayout();
-      });
-  const addIncome=document.getElementById("addIncome");
-  if(addIncome)
-      addIncome.addEventListener('click',_=>{
-          incomeButtonControl({description:"description",amount:"2000",date:"22/03/2020",tax:"kodkod",deductions:"jdkjdo",taxable:"kdkkd"});
-      });
-    $(".app-date").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: "mm/dd/yy",
-        yearRange: "-90:+00"
-    });
-  const fileUpload=document.getElementById('fileUpload');
-  if(fileUpload)
-      fileUpload.addEventListener('click',function () {
-         const mainWindow=remote.require("./app");
-         mainWindow.getFileFromUser();
+        cont.generalTags("</div>");
 
-      });
-}
-loadGeneralTaxEstimationSpouses=status=>{
-  //TODO :handle all layout jointly ,separately,household,window(er) console.log(status);
-  if(status=='jointly'){
-    loadGeneralJointPayerLayout();
-  }else if(status=='separately'){
+        cont.generalTags("<div class='app-right app-half'>");
 
-  }else if(status=='household'){
+        cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-3'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>");
 
-  }else if(status=='window'){
+        cont.generalTags("<div class='app-left app-full' id='income-container'></div>");
 
-  }else {
-      loadSingleTaxPayerLayout();
-  }
+        cont.generalTags("</div>");
 
-},loadSingleTaxPayerLayout=()=>{
-    const cont=new objectString();
+        cont.generalTags("</div>");
 
-    cont.generalTags('<input type="hidden" id="method" value="single">');
+        document.getElementById('tax-holder-container').innerHTML=cont.toString();
+        current.calculatorMacroFunctions();
+    }
+    loadGeneralDependentsLayout(){
+        const cont=new objectString();
 
-    cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Filling Single</h3>");
+        const current=this;
+        cont.generalTags('<input type="hidden" id="method" value="single">');
 
-    cont.generalTags("<div class='app-left app-full'>");
+        cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Dependants</h3>");
 
-    cont.generalTags("<div class='app-left app-half'>");
+        cont.generalTags("<div class='app-left app-full'>");
 
-    cont.generalTags(loadGeneralIncomeInputLayout());
+        cont.generalTags("<div class='app-left app-half'>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>First name and Middle initial</label><input class='app-left app-border app-round app-border'></div>");
 
-    cont.generalTags("<div class='app-left app-half' >");
+        cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>Last name</label><input class='app-left app-border app-round app-border'></div>");
 
-    cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-3'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>")
+        cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>Social Security number</label><input class='app-left app-border app-round app-border'></div>");
 
-    cont.generalTags("<div class='app-left app-full' id='income-container'></div>");
+        cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>Relationship to you</label><input class='app-left app-border app-round app-border'></div>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-margin'>Child Tax Credits</label><input class='app-left app-radio' type='radio'><label class='app-left app-margin'>Credit for other dependents</label><input class='app-left app-radio' type='radio'></div>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-right app-button-shape'>Add Dependant</label></div>");
 
-    document.getElementById('tax-holder-container').innerHTML=cont.toString();
-    calculatorMacroFunctions();
-},mainDataHandler=_=>{//TODO : CREATE A METHOD FOR HANDLING THE DATA FOR THE TAX CALCULATOR.
+        cont.generalTags("</div>");
 
-},loadGeneralJointPayerLayout=()=>{
-    const cont= new objectString();
+        cont.generalTags("<div class='app-left app-half'>");
 
-    cont.generalTags('<input type="hidden" id="method" value="joint">');
+        cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-4'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>")
 
-    cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Filling Jointly</h3>");
+        cont.generalTags("<div class='app-left app-full' id='dependants-container'></div>");
 
-    cont.generalTags("<div class='app-left app-full'>");
+        cont.generalTags("</div>");
 
-    cont.generalTags("<div class='app-left app-half' id='spouse' style='overflow: hidden'>");
+        cont.generalTags("</div>");
 
-    cont.generalTags("<div class='app-left app-full app-padding-left'>");
+        document.getElementById('tax-holder-container').innerHTML=cont.toString();
 
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Spouse First and Middle initial</label>");
+        current.calculatorMacroFunctions();
+    }
+    incomeButtonControl(/*object*/ object){//TODO :
+        const cont=new objectString();
 
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text'>");
+        const current=this;
 
-    cont.generalTags("</div>");
+        cont.generalTags("<div class='app-left app-round app-width-60 app-margin-left app-margin-right app-margin-bottom app-border'>"+current.General.ucFirst(object.description)+" @ <small class='app-money'>$"+object.amount+"</small> </div>");
 
-    cont.generalTags("<div class='app-left app-full app-padding-left'>");
+        $("#income-container").append(cont.toString());
 
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Last name</label>");
+    }
+    loadGeneralIncomeInputLayout=_=>{
+        const cont=new objectString();
 
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text'>");
+        cont.generalTags("<button class='app-round app-border app-margin-left'>Load Income from System</button>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<div class='app-left app-margin-left app-margin-bottom'>Wages, salaries, tips, etc. Attach Form(s) W-2 </div>");
 
-    cont.generalTags("<div class='app-left app-full app-padding-left'>");
+        cont.generalTags("<div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Spouse social security number </label>");
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Description</label>");
 
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text'>");
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' id='desc' type='text'>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags("<fieldset class='app-left app-width-90 app-padding-left app-margin app-round'>");
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Amount</label>");
 
-    cont.generalTags("<legend>Presidential Election Campaign</legend>");
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' id='amount' type='text'>");
 
-    cont.generalTags("<small class='app-full app-left'>Check here if you want $3 to go to this fund</small>");
+        cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags("<label class='app-left app-margin-right'>You</label>");
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Date</label>");
 
-    cont.generalTags("<input type='radio' class='app-radio app-left app-margin-right'>");
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border app-date' id='date' type='text'>");
 
-    cont.generalTags("<label class='app-left app-margin-right'>Spouse</label>");
+        cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags("<input type='radio' class='app-radio app-left app-margin-right'>");
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Tax Applied</label>");
 
-    cont.generalTags("</fieldset>");
+        cont.generalTags("<input class='app-width-25 app-round app-margin-top app-border' type='text' id='tax'>");
 
-    cont.generalTags("<div class='app-left app-full'><label class='app-left app-margin'>Your spouse as a dependent</label><input class='app-left app-radio' type='radio'></div>");
+        cont.generalTags("<small class=''>Percentage</small><input checked type='radio' ></div><div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags("<div class='app-button-shape app-hover-green app-right' id='toggle'>Handle Income<i class='fas fa-arrow-alt-circle-right app-right'></i> </div>");
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Deductions</label>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text' id='ded'>");
 
-    cont.generalTags("<div class='app-left app-half app-hidden' id='income'>");
+        cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags(loadGeneralIncomeInputLayout());
+        cont.generalTags("<label class='app-left app-half app-padding-top'>Taxable Amount</label>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text' id='tax-app'>");
 
-    cont.generalTags("<div class='app-right app-half'>");
+        cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
 
-    cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-3'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>");
+        cont.generalTags("<label class='app-left  app-button-shape'  id='fileUpload'>Upload W2 /1040</label>");
 
-    cont.generalTags("<div class='app-left app-full' id='income-container'></div>");
+        cont.generalTags("<label class='app-right  app-button-shape' id='addIncome'>Add Income</label>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("<input type='file' name='file' id='file' class='app-hidden'>");
 
-    cont.generalTags("</div>");
+        cont.generalTags("</div>");
 
-    document.getElementById('tax-holder-container').innerHTML=cont.toString();
-    calculatorMacroFunctions();
-},loadGeneralIncomeInputLayout=_=>{
-    const cont=new objectString();
-
-    cont.generalTags("<button class='app-round app-border app-margin-left'>Load Income from System</button>");
-
-    cont.generalTags("<div class='app-left app-margin-left app-margin-bottom'>Wages, salaries, tips, etc. Attach Form(s) W-2 </div>");
-
-    cont.generalTags("<div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Description</label>");
-
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' id='desc' type='text'>");
-
-    cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Amount</label>");
-
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' id='amount' type='text'>");
-
-    cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Date</label>");
-
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border app-date' id='date' type='text'>");
-
-    cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Tax Applied</label>");
-
-    cont.generalTags("<input class='app-width-25 app-round app-margin-top app-border' type='text' id='tax'>");
-
-    cont.generalTags("<small class=''>Percentage</small><input checked type='radio' ></div><div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Deductions</label>");
-
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text' id='ded'>");
-
-    cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left app-half app-padding-top'>Taxable Amount</label>");
-
-    cont.generalTags("<input class='app-half app-round app-margin-top app-border' type='text' id='tax-app'>");
-
-    cont.generalTags("</div><div class='app-left app-full app-padding-left'>");
-
-    cont.generalTags("<label class='app-left  app-button-shape'  id='fileUpload'>Upload W2 /1040</label>");
-
-    cont.generalTags("<label class='app-right  app-button-shape' id='addIncome'>Add Income</label>");
-
-    cont.generalTags("<input type='file' name='file' id='file' class='app-hidden'>");
-
-    cont.generalTags("</div>");
-
-    return cont.toString();
-},loadGeneralDependentsLayout=_=>{
-    const cont=new objectString();
-
-    cont.generalTags('<input type="hidden" id="method" value="single">');
-
-    cont.generalTags("<h3 class='app-full app-padding-left app-border-bottom'>Dependants</h3>");
-
-    cont.generalTags("<div class='app-left app-full'>");
-
-    cont.generalTags("<div class='app-left app-half'>");
-
-    cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>First name and Middle initial</label><input class='app-left app-border app-round app-border'></div>");
-
-    cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>Last name</label><input class='app-left app-border app-round app-border'></div>");
-
-    cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>Social Security number</label><input class='app-left app-border app-round app-border'></div>");
-
-    cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-half'>Relationship to you</label><input class='app-left app-border app-round app-border'></div>");
-
-    cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-left app-margin'>Child Tax Credits</label><input class='app-left app-radio' type='radio'><label class='app-left app-margin'>Credit for other dependents</label><input class='app-left app-radio' type='radio'></div>");
-
-    cont.generalTags("<div class='app-left app-full app-margin-bottom app-padding-left'><label class='app-right app-button-shape'>Add Dependant</label></div>");
-
-    cont.generalTags("</div>");
-
-    cont.generalTags("<div class='app-left app-half'>");
-
-    cont.generalTags("<div class='app-right app-padding app-margin app-hover-green app-button-shape' id='step-4'>Next <i class='fas fa-arrow-alt-circle-right app-hover-text-green'></i></div>")
-
-    cont.generalTags("<div class='app-left app-full' id='dependants-container'></div>");
-
-    cont.generalTags("</div>");
-
-    cont.generalTags("</div>");
-
-    document.getElementById('tax-holder-container').innerHTML=cont.toString();
-
-    calculatorMacroFunctions();
-},incomeButtonControl=(/*object*/ object)=>{//TODO :
-    const cont=new objectString();
-
-    cont.generalTags("<div class='app-left app-round app-width-60 app-margin-left app-margin-right app-margin-bottom app-border'>"+ucFirst(object.description)+" @ <small class='app-money'>$"+object.amount+"</small> </div>");
-
-    $("#income-container").append(cont.toString());
-
+        return cont.toString();
+    }
 }
 
-/*----Tax CALCULATOR MODULE FINAL */

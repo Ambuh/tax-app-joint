@@ -160,6 +160,9 @@ class ReportManagement {
 
                 return current.handleRatioAnalysis(bodyRootContainer);
                 break;
+            case 11:
+                return current.handleBalanceSheet(bodyRootContainer);
+                break;
             default:
                 cont.generalTags("Working on this");
         }
@@ -257,7 +260,31 @@ class ReportManagement {
         cont.generalTags("</div>");
 
         document.getElementById(container).innerHTML=(cont.toString());
+    }
+    handleBalanceSheet(bodyElement){
 
+        const  cont= new objectString();
 
+        cont.generalTags("<div class='app-right app-light-blue app-hover-light-green app-button-shape app-left app-text-center'>Print</div>");
+
+        cont.generalTags("<div class='app-left app-full app-border-bottom'><h3 class='app-left app-width-40'>Income Statement</h3>  <h3 class='app-right app-margin-right app-width-40 app-text-right app-padding-right'>"+this.General.getToday()+"</h3></div>");
+
+        for(let i=0;i<2;i++){
+            cont.generalTags("<div class='app-left app-full app-border-bottom'>");
+
+            cont.generalTags("<div class='app-left app-width-30 app-height-full app-grid app-center' style='min-height: 80px'>Revenue</div>");
+
+            cont.generalTags("<div class=' app-width-60 app-left' style='min-height: 80px'>");
+
+            cont.generalTags("<label class='app-left app-half app-border-left app-padding-left app-border-right '>Revenue from sales</label><label class='app-left app-half'>$ 1000</label>");
+
+            cont.generalTags("<label class='app-left app-half app-border-left app-padding-left app-border-right'>Revenue from sharing</label><label class='app-left app-half'>$ 1000</label>");
+
+            cont.generalTags("</div>");
+
+            cont.generalTags("</div>");
+        }
+
+        bodyElement.innerHTML=cont.toString();
     }
 }

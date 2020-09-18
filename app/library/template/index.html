@@ -1,6 +1,7 @@
 <!DOCTYPE html>
  <html>
   <head>
+      <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
       <title>24Hour System</title>
       <link rel="stylesheet" href="../../library/fonts/fonts.css">
       <link rel="stylesheet" href="../../library/fonts/css/fontawesome-all.css">
@@ -12,7 +13,6 @@
       <script src="../scripts/ipcrenderer/client/jquery-ui.js"></script>
       <script src="../scripts/loader_scripts.js"></script>
       <script src="../scripts/shared_lib.js"></script>
-      <script src="../scripts/general/general.js"></script>
       <script src="../scripts/renderer.js"></script>
       <script src="./main.js"></script>
   </head>
@@ -35,6 +35,5 @@
   <body style="width: 100vw;height: 100vh;float: left;padding:0px;border: 0px;margin:0px" id="body">
   <div id="popup-window" style="display: grid;place-items: center">
       <div class="app-white app-padding app-left" id="processing" >Processing...</div></div><div id="forms-container" ></div><div id="toast" class="app-hide"></div>
-
   </body>
 </html>

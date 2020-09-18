@@ -38,13 +38,13 @@ class IncomeManagement{
             }
             const income=new objectString();
 
-            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Overall Income</b><label class='app-right app-half app-text-left'>$ "+totalIncome+"</label></div>");
+            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Overall Income</b><label class='app-right app-half app-padding-left app-text-left'> "+current.General.getMoney(totalIncome)+"</label></div>");
 
-            income.generalTags("<div class=' app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Total Taxes</b><label class='app-right app-half  app-text-left '>$ "+totalTaxes+"</label></div>");
+            income.generalTags("<div class=' app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Total Taxes</b><label class='app-right app-half app-padding-left  app-text-left '> "+current.General.getMoney(totalTaxes)+"</label></div>");
 
-            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Total Deductions</b><label class='app-right app-half  app-text-left'>$ "+totalDeductions+"</label></div>");
+            income.generalTags("<div class='app-padding-left app-border-bottom app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Total Deductions</b><label class='app-right app-padding-left app-half  app-text-left'> "+current.General.getMoney(totalDeductions)+"</label></div>");
 
-            income.generalTags("<div class='app-padding-left app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Net Income</b><label class='app-right app-half  app-text-left'>$ "+(totalIncome-(totalDeductions+totalTaxes))+"</label></div>");
+            income.generalTags("<div class='app-padding-left app-full app-left'> <b class='app-left app-half app-border-right app-text-right'>Net Income</b><label class='app-right app-half app-text-underline app-padding-left  app-text-left'> "+current.General.getMoney(totalIncome-(totalDeductions+totalTaxes))+"</label></div>");
 
             document.querySelector("#totals-corner").innerHTML=income.toString();
             current.incomeTableFunctions();
@@ -365,7 +365,8 @@ class IncomeManagement{
         return cont.toString();
     }
     loadIncomeTableLayout(data){
-        console.log(data);
+        const current=this;
+
         const  list = new open_table();
 
         list.setColumnNames(['id','description','amount','Date','action']);
@@ -376,7 +377,7 @@ class IncomeManagement{
 
 
         for(let i=0;i<data.length;i++){
-            list.addItems([(i+1),data[i].ic_description,data[i].ic_amount,data[i].ic_date,'<i class="fa fa-pencil-alt edit"  data-id="'+data[i].id+'"></i><i class="fas fa-file" ></i><i class="fas fa-trash-alt del"></i>']);
+            list.addItems([(i+1),data[i].ic_description,current.General.getMoney(data[i].ic_amount),data[i].ic_date,'<i class="fa fa-pencil-alt edit"  data-id="'+data[i].id+'"></i><i class="fas fa-file" ></i><i class="fas fa-trash-alt del"></i>']);
         }
 
         list.showTable();

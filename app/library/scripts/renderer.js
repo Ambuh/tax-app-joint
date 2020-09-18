@@ -1,4 +1,4 @@
-const _loadMainMenus=package=>{
+const _loadMainMenus=(package)=>{
         let cont = new objectString();
 
         let menus=null;
@@ -18,7 +18,7 @@ const _loadMainMenus=package=>{
             cont.generalTags("<div class='menu app-default-font app-padding app-margin-top app-white app-default-shape app-pointer' id='"+menus[i][0]+"'>"+menus[i][2]+" "+ucFirst(menus[i][1])+"</div>");
 
         document.getElementById('menu-section').innerHTML=cont.toString();
-        _microIndividualFunctions();
+        _microIndividualFunctions(package);
     },
     _microIndividualFunctions=_=>{
 
@@ -125,25 +125,25 @@ function loadMainFunctions(menuCont,bodyCont,cbk){
 function alert(text){
     const pop=document.getElementById('popup-window');
 
-    pop.style.display='flex';
+    $('#popup-window').removeClass('app-hide').fadeIn('fast',function () {
+        const cont= new objectString();
 
-    const cont= new objectString();
+        cont.generalTags("<div class='app-white app-round app-width-30 app-padding' >");
 
-    cont.generalTags("<div class='app-white app-round' id='processing' style='margin-right: 30%;margin-top: 10%;height: 100px'>");
+        cont.generalTags("<div class='app-full app-left app-text-center'>"+text+"</div>");
 
-    cont.generalTags("<div class='app-full app-left app-text-center'>"+text+"</div>");
+        cont.generalTags("<div class='app-right app-button-shape app-red app-hover-text-green' id='ok'>Ok</div>");
 
-    cont.generalTags("<div class='app-right app-button-shape app-red app-hover-text-green' id='ok'>Ok</div>");
+        cont.generalTags("</div>");
 
-    cont.generalTags("</div>");
+        pop.innerHTML=cont.toString();
 
-    pop.innerHTML=cont.toString();
+        document.getElementById('ok').addEventListener('click',function () {
+            closePopUp();
+        });
 
-    document.getElementById('ok').addEventListener('click',function () {
-        closePopUp();
-    });
-
-    function closePopUp() {
-        pop.style.display='none';
-    }
+        function closePopUp() {
+            pop.style.display='none';
+        }
+    })
 }

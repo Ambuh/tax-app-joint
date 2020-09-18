@@ -1,31 +1,3 @@
-const io= require('socket.io-client');
-
-const socket = io(`http://localhost:9080`);
-
-
-function Toast(/*content*/cont,/*callBack*/callBack){
-
-    const ui=$("#toast");
-
-    ui.html(promptUI(cont));
-
-    if(callBack !=undefined){
-        callBack();
-    }
-    function promptUI(cont){
-        const obj= new objectString();
-
-        obj.generalTags("<div class='app-white app-round'>");
-
-        obj.generalTags(cont);
-
-        obj.generalTags("</div>")
-
-        return obj.toString();
-    }
-    return ui;
-}
-
 class objectString{
 
     constructor() {
@@ -113,47 +85,6 @@ function ucFirst(s){
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-function user(){
-    return {
-        id:" ",
-        name:" ",
-        ssn:" ",
-        email:" ",
-        status:" ",
-        payment:" ",
-        dob:" ",
-        phone:" ",
-        desc:" ",
-        city:" ",
-        actCode:" ",
-        type:" ",
-        compId:" ",
-    }
-}
-
-function systemAlert(text,cbk){
-
-}
-
-function toast(message,cbk) {
-
-   const popup=document.querySelector('#toast');
-
-   let pos=popup.style.top;
-
-   popup.innerHTML=message;
-
-   let id=setInterval(frame,10);
-
-   function frame() {
-       if(pos==100){
-           popup.style.display='none';
-       }else{
-           pos++;
-           popup.style.top=pos+'%';
-       }
-   }
-}
 function validate(evt) {
     let theEvent = evt || window.event;
 

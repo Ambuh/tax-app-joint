@@ -12,10 +12,6 @@ function createSQLFile() {
   fs.writeFile(path.join(__dirname,'./../main.db'),'',function(err,result){
       if(err){
           console.log("Unable to create the database");
-      }else{
-          if(cbk !=undefined) {
-              cbk();
-          }
       }
 
   })
@@ -23,7 +19,7 @@ function createSQLFile() {
 
 exports.createTableInstances=()=>{
     const dbTables=[
-        'create table IF NOT EXISTS frontend_users(id integer PRIMARY KEY,user text,username text,city text,social text,dob text,short_description text,email text,phone_no text,password text,special_code text)',
+        'create table IF NOT EXISTS frontend_users(id integer PRIMARY KEY,first_name text,second_name text,surname text,user_name text,user text,username text,city text,social text,dob text,short_description text,email text,phone_no text,password text,special_code text,locale text,apartment_no text)',
         'create table IF NOT EXISTS  py_employees(id integer  PRIMARY KEY ,firstname text,secondname text,email text,status text,ssn text,dob text,city text,em_contacts text)',
         'create table IF NOT EXISTS sessions( status integer default 1,machine_type text,user_id text,keyfile text,package text)',
         'create table IF NOT EXISTS py_groups(id integer PRIMARY KEY ,basic text,tax text,overtime text,type text)',
@@ -129,7 +125,7 @@ module.exports={
            for(let i=0;i<fields.length;i++){
                where.push(fields[i]+"='"+equals[i]+"'");
            }
-           let query='update '+table+' set '+where.join(',')+(whereclause !=undefined ? "where "+whereclause :' ' );
+           let query='update '+table+' set '+where.join(',')+(whereclause !=undefined ? " where "+whereclause.split("where")[1] :' ' );
 
             return new Promise(function (resolve, reject) {
               db.serialize(()=>{

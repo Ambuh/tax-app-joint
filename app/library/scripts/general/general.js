@@ -1,4 +1,5 @@
 const fs=require('fs');
+
 const path=require('path');
 
 const database=require(path.join(__dirname,"./../scripts/database.js"));
@@ -6,7 +7,6 @@ const database=require(path.join(__dirname,"./../scripts/database.js"));
 function loadModules(moduleType=1){
 
     const cssFiles=fs.readdirSync(path.join(__dirname,`../styles`));
-
 
     for(let i=0;i<cssFiles.length;i++){
         let css=document.createElement('link');

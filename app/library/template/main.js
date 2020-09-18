@@ -5,9 +5,9 @@ function renderRegistration(){
 
         cont.generalTags(' <header class="app-default-background app-default-font app-center app-padding app-margin-bottom" style="font-size: 24px">24Hour Tax <small>User Registration</small></header>');
 
-        cont.generalTags(`<div class="app-padding-left app-left app-full" > <label class="app-left  app-full" style="margin-bottom: 5px">FirstName</label>   <input  id="first" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
+        cont.generalTags(`<div class="app-padding-left app-left app-full" > <label class="app-left  app-full" style="margin-bottom: 5px">First Name and Middle initial</label>   <input  id="first" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
-        cont.generalTags(`<div class="app-padding-left app-left app-full "><label class="app-left  app-full" style="margin-bottom: 5px">Lastname</label><input  id="sur" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
+        cont.generalTags(`<div class="app-padding-left app-left app-full "><label class="app-left  app-full" style="margin-bottom: 5px">Surname</label><input  id="sur" type ='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
         cont.generalTags(` <div class="app-padding-left app-left app-full"><label class="app-left  app-full" style="margin-bottom: 5px">Email Address</label><input  id='email' type='text' class="app-padding-small app-round app-width-90 app-border "></div>`);
 
@@ -58,8 +58,8 @@ function handlerReg(){
         if(firstname.value !="" || surname.value !="" || email_address.value !="" || ssn.value !="" || dob.value !=""){
             if(pass.value !=" " && (c_pass.value==pass.value)){
 
-                database.insertQuery('frontend_users',['user','username','dob','email','social','password'],
-                    [firstname.value,surname.value,dob.value,email_address.value,ssn.value,pass.value]).then(rows=>{
+                database.insertQuery('frontend_users',['first_name','second_name','surname','user','username','dob','email','social','password'],
+                    [firstname.value.split(" ")[0],firstname.value.split(" ")[1] !=undefined ? firstname.value.split(" ")[1]: ' ',surname.value,firstname.value,email_address.value,dob.value,email_address.value,ssn.value,pass.value]).then(rows=>{
                     if(rows !=undefined){
                         instanceUserManagement(rows);
                     }
@@ -314,6 +314,7 @@ function handleUserLoginInto() {
 function showClientSystem(){
 
     database.selectQuery(["a.machine_type",'a.user_id','a.keyfile','a.package','a.status','b.email','b.username'],'sessions a, frontend_users b','where a.user_id=b.id and a.status=1').then(rows=>{
+
         if(rows !=undefined & rows.length !=0){
 
             let package=null;
@@ -336,6 +337,7 @@ function showClientSystem(){
 
         }else{
             database.selectQuery(['*'],'frontend_users').then(rows=>{
+                console.log(rows);
                 if(rows !==undefined){
                     handleUserLoginInto();
                 }else{
@@ -368,14 +370,13 @@ const bodyElement=_=>{
 
     return cont.toString();
 }
-function packageManager({package}){
+function packageManager({package,...props}){
 
     const cont= new objectString();
 
     cont.generalTags(`<div id="popup-window" class="app-hide"> <div class="app-white app-padding app-left" id="processing">  Compiling...  </div> </div>`);
 
-    cont.generalTags(`<div id="toast" class="app-hide">General Wallpaper</div>`);
-
+    cont.generalTags(`<div id="toast" >General Wallpaper</div>`);
 
     cont.generalTags(`<section  id="${(package !="1" ? "app-container" : "app-fluid-container")}">`);
 
@@ -392,9 +393,8 @@ function packageManager({package}){
             document.getElementById("body").innerHTML=cont.toString();
             _loadMainMenus(package);loadModules();
             const {ipcRenderer} =require('electron');
-
-            ipcRenderer.send("resize-me-please",{dom:'full'})
+            ipcRenderer.send("resize-me-please",{dom:'full'});
+            ipcRenderer.send("user-session",{...props});
         }
     };
 }
-showClientSystem();

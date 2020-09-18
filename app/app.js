@@ -6,6 +6,7 @@ const path=require('path');
 
 const {checkSoftware,selectQuery,updateQuery}= require("../app/library/scripts/database");
 
+let user=null;
 if(checkSoftware()){
   const server=require('http').createServer(app)
 
@@ -92,6 +93,10 @@ ipcMain.on("dropSession",function (ev,args){
    });
 });
 
+
+ipcMain.on("user-session",(ev,args)=>{
+  user=args;
+});
 ipcMain.on('resize-me-please',(ev,args)=>{
   if(args.dom=='full'){
      mainWindow.maximize();
@@ -104,6 +109,10 @@ ipcMain.on('resize-me-please',(ev,args)=>{
     mainWindow.setPosition(500,50);
     mainWindow.setSize(450,550);
   }
+});
+
+ipcMain.on("get-system-user",async function (ev,args) {
+  ev.returnValue=user;
 });
 exports.handleDialog=function (){
 

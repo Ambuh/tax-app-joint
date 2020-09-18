@@ -21,13 +21,20 @@
   <component name="ChangeListManager">
     <list default="true" id="f1f47f76-bccc-435a-a47b-866445ad81a4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/main.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/main.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/expenseManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/expenseManagment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/general/general.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/general/general.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/incomeMangement.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/itemization.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/itemization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/payrollManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/payrollManagment.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/reportManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/reportManagement.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/taxCalculatorManagment.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/ipcrenderer/client/taxCalculatorManagment.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/library/scripts/loader_scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/loader_scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/scripts/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/scripts/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/styles/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/styles/system.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/styles/system.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/template/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/template/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/library/template/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/library/template/main.js" afterDir="false" />
     </list>
     <list id="8e2134ce-08f1-48ec-860d-3adbbb622ef7" name="managing userpages" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -202,7 +209,8 @@
       <workItem from="1600259072125" duration="3835000" />
       <workItem from="1600274474146" duration="421000" />
       <workItem from="1600274941670" duration="3768000" />
-      <workItem from="1600345618289" duration="5643000" />
+      <workItem from="1600345618289" duration="9392000" />
+      <workItem from="1600407365006" duration="16729000" />
     </task>
     <task id="LOCAL-00001" summary="managing userpages">
       <branch name="master" repository="E:\projects\node\sqlite" original="true" />
@@ -263,13 +271,13 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="550" y="119" width="748" height="499" key="EnvironmentVariablesDialog/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1597480326040" />
-    <state x="504" y="192" key="FileChooserDialogImpl" timestamp="1600325760350">
+    <state x="504" y="192" key="FileChooserDialogImpl" timestamp="1600358291435">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="-1060" y="-17" key="FileChooserDialogImpl/0.0.1366.738/-1680.-282.1680.1020@-1680.-282.1680.1020" timestamp="1599578507124" />
     <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738/-1680.-282.1680.1020@0.0.1366.738" timestamp="1599544925349" />
     <state x="-1060" y="265" key="FileChooserDialogImpl/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1594631628080" />
-    <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1600325760350" />
+    <state x="504" y="192" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1600358291435" />
     <state width="1306" height="178" key="GridCell.Tab.0.bottom" timestamp="1600170913769">
       <screen x="-1680" y="-282" width="1680" height="1020" />
     </state>
@@ -318,6 +326,10 @@
       <screen x="-1680" y="0" width="1680" height="1020" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.0.1366.738/-1680.0.1680.1020@-1680.0.1680.1020" timestamp="1595339801224" />
+    <state x="526" y="141" key="refactoring.ChangeSignatureDialog" timestamp="1600433131860">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="526" y="141" key="refactoring.ChangeSignatureDialog/0.0.1366.738@0.0.1366.738" timestamp="1600433131860" />
     <state x="-1263" y="228" key="run.anything.popup" timestamp="1595323264202">
       <screen x="-1680" y="0" width="1680" height="1020" />
     </state>

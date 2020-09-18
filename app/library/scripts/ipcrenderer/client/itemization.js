@@ -81,7 +81,6 @@ class Itemization{
       }
     }
 }
-
 class Income{
     constructor(database) {
         this.database=database
@@ -138,5 +137,86 @@ class General{
             style:"currency",
             currency:"USD"
         })
+    }
+    ucFirst(s){
+        if (typeof s !== 'string') return ''
+        return s.charAt(0).toUpperCase() + s.slice(1)
+
+    }
+    Toast(/*content*/cont,/*callBack*/callBack){
+
+        const ui=$("#toast");
+
+        ui.fadeIn('fast',function () {
+            ui.css("display","grid")
+        });
+        ui.html(promptUI(cont));
+
+        setTimeout(function (){
+            ui.animate({
+                top:'110%'
+            },1000,function () {
+                ui.fadeOut('fast',function () {
+                    ui.css("top","95%");
+                });
+            })
+        },2500)
+        if(callBack !=undefined){
+            callBack();
+        }
+        function promptUI(cont){
+            const obj= new objectString();
+
+            obj.generalTags("<div class='app-dark-gray app-round app-padding'>");
+
+            obj.generalTags(cont);
+
+            obj.generalTags("</div>")
+
+            return obj.toString();
+        }
+        return ui;
+    }
+}
+class User{
+    constructor() {
+        this.database=database;
+    }
+    getUsers(where_clause){
+        const current=this;
+        return new Promise(function (resolve, reject) {
+            current.database.selectQuery(['*'],'frontend_users',where_clause).then(rows=>{
+                   resolve(rows);
+            });
+        })
+
+    }
+    checkUserPrivileges(){
+
+    }
+    getCurrentUser(){
+        const {ipcRenderer}=require("electron");
+
+        return (ipcRenderer.sendSync("get-system-user"));
+    }
+    updateUserDetails(obj,id){
+        const current=this;
+        let fields=[];
+
+        let values=[];
+
+        for (let key in obj){
+            if(obj[key].trim() !="" & ["first_name","second_name","surname","user_name" ,"user" ,"username","city","social" ,"dob","email","phone_no" ,"special_code","locale","apartment_no"].includes(key) ){
+               fields.push(key);values.push(obj[key]);
+            }
+        }
+
+
+        return new Promise(function (resolve, reject) {
+            current.database.updateQuery('frontend_users',fields,values,'where id='+id).then(rows=>{
+               resolve(rows);
+            });
+        })
+
     }
 }
