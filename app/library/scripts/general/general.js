@@ -32,7 +32,22 @@ function loadModules(moduleType=1){
     }
 }
 
-window.onload=()=>showClientSystem();
+window.onload=function (){
+    showClientSystem();
+
+    setInterval(checkNetworkConnection,120);
+
+    function checkNetworkConnection(){
+        const {ipcRenderer}=require("electron");
+        let status=true;
+        if(!navigator.onLine){
+            status=false;
+            ipcRenderer.send('web-online-status',{status:false});
+        }else{
+            ipcRenderer.send('web-online-status',{status:true});
+        }
+    }
+}
 
 const getDashboardContent=(att,fun)=>{//TODO ;make this function async and load predefined packages
     const obj= new objectString();

@@ -9,7 +9,7 @@ let db=this.db=new sqlite3.Database(path.join(__dirname,'./../main.db'),sqlite3.
 });
 
 function createSQLFile() {
-  fs.writeFile(path.join(__dirname,'./../main.db'),'',function(err,result){
+  fs.writeFile(path.join(__dirname,'./../main.db'),'',function(err){
       if(err){
           console.log("Unable to create the database");
       }
@@ -30,7 +30,9 @@ exports.createTableInstances=()=>{
         'create table IF NOT EXISTS py_assets(id INTEGER PRIMARY KEY,description text,amount text,category text,sub_category INTEGER DEFAULT 0,note text,data text,dateof text,m_category text)',
         'create table IF NOT EXISTS py_income_categories(id INTEGER PRIMARY KEY ,description text,category text,c_type text,note text,fixed_amount text,date_of text)',
         'create table IF NOT EXISTS py_relations(id INTEGER PRIMARY KEY,comp_name text,email text,alt_email text,typeOf integer DEFAULT 1,phone text,datar text,comp_code text,is_sub_categ INTEGER  DEFAULT 0)',
-        'create table IF NOT EXISTS personal_details(id INTEGER PRIMARY KEY ,file_status text,user_id text,foreginer_status,foreginer_name text,foregnier_state text,foregnier_address text )'
+        'create table IF NOT EXISTS personal_details(id INTEGER PRIMARY KEY ,file_status text,user_id text,foreginer_status,foreginer_name text,foregnier_state text,foregnier_address text )',
+        'create table IF NOT EXISTS py_user_relations(id INTEGER PRIMARY KEY,firstname text,secondname text,username text,dob text,realtion text,ssn text,data text,owner text)',
+        'create table IF NOT EXISTS py_taxable_income(id INTEGER PRIMARY KEY ,description text,dateof text,owner text,amount text,taxable_income text,deductions text)'
     ]
     db.serialize(function() {
 

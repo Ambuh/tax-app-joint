@@ -20,9 +20,9 @@ const _loadMainMenus=(package)=>{
         document.getElementById('menu-section').innerHTML=cont.toString();
         _microIndividualFunctions(package);
     },
-    _microIndividualFunctions=_=>{
+    _microIndividualFunctions=package=>{
 
-        const calculatorButton=document.querySelector("#calc");
+     const calculatorButton=document.querySelector("#calc");
 
         if(calculatorButton)
             calculatorButton.addEventListener('click',(e)=>{loadMainFunctions(loadGeneralCalculatorMenusLayout,loadGeneralCalculatorLayout,calculatorFunctions,e)});
@@ -62,7 +62,7 @@ const _loadMainMenus=(package)=>{
         const userProfileButton = document.getElementById('user_profile');
 
         if(userProfileButton)
-            userProfileButton.addEventListener('click',()=>{loadMainFunctions(loadUserProfileMenu,loadUserProfile,userMicroFunctions)});
+            userProfileButton.addEventListener('click',()=>{loadMainFunctions(loadUserProfileMenu.bind(package),loadUserProfile.bind(package),userMicroFunctions)});
 
         const logoutButton = document.getElementById('log_out');
 
@@ -86,26 +86,25 @@ const _loadMainMenus=(package)=>{
         const inventoryButton = document.getElementById('inventory');
 
         if(inventoryButton)
-            inventoryButton.addEventListener('click',()=>{loadMainFunctions(loadInventoryMenu,loadInventoryLayout,inventoryMicroFunctions)})
+            inventoryButton.addEventListener('click',()=>{loadMainFunctions(package,loadInventoryMenu,loadInventoryLayout,inventoryMicroFunctions)})
 
         const itemizationButton=document.getElementById("item");
         if(itemizationButton)
             itemizationButton.addEventListener('click',function (){
-                const itemClass= new Itemization();
+                const itemClass= new Itemization(package);
 
                 itemClass.render();
 
             });
     },
-    _microSmallBusinessFunctions=_=>{
+    _microSmallBusinessFunctions=package=>{
         document.getElementById('inc').addEventListener('click',function () {
-            loadMainFunctions(loadIncomeMenu,loadIncomeGeneralLayout,loadIncomeFunction);
+            loadMainFunctions(package,loadIncomeMenu,loadIncomeGeneralLayout,loadIncomeFunction);
         });
     }
 
 
-function loadMainFunctions(menuCont,bodyCont,cbk){
-
+function loadMainFunctions(package,menuCont,bodyCont,cbk){
 
     const bodyContainer=document.querySelector("#body-cont");
 

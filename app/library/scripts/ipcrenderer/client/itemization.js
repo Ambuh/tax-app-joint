@@ -6,12 +6,12 @@ class Itemization{
         {name:'reports',id:'reportButton'},
         {name:'settings',id:'settingsButton'}
     ]
-    constructor() {
+    constructor(value) {
         this.db= database;
-        this.income= new IncomeManagement();
-        this.expense= new ExpenseManagement();
-        this.taxHandler= new TaxCalculatorManagement();
-        this.reportsHandler= new ReportManagement();
+        this.income= new IncomeManagement(value);
+        this.expense= new ExpenseManagement(value);
+        this.taxHandler= new TaxCalculatorManagement(value);
+        this.reportsHandler= new ReportManagement(value);
     }
     render(){
         /*this function handles rendering of the main layout of the user interface for itemization*/
@@ -39,6 +39,12 @@ class Itemization{
 
         document.getElementById('body-cont').innerHTML=cont.toString();
         this.supportFunctions();
+        this.loadDashBoardFunction();
+    }
+    loadDashBoardFunction(){
+
+         document.getElementById('app-container-small').innerHTML=this.taxHandler.loadGeneralCalculatorLayout();
+         this.taxHandler.loadGeneralTaxButtonControls();
     }
     supportFunctions(){
       const menus=document.querySelectorAll(".menu");
@@ -68,6 +74,7 @@ class Itemization{
           if(menu=='taxButton'){
              menuContainer.innerHTML='';
               bodyElement.innerHTML=classUi.taxHandler.loadGeneralCalculatorLayout();
+               classUi.taxHandler.loadGeneralTaxButtonControls();
           }
           if(menu=='reportButton'){
               menuContainer.innerHTML='';
@@ -75,9 +82,6 @@ class Itemization{
               classUi.reportsHandler.reportsMicroFunctions();
 
           }
-
-
-          console.log(menu);
       }
     }
 }
@@ -189,6 +193,15 @@ class General{
 
        return arr;
     }
+    getTaxStatus(){
+        return  [
+            {name:'Single',id:'single',attr:1},
+            {name:'Married Filing Jointly',id:'jointly',attr: 2},
+            {name:'Married Filing Separately',id:'separately',attr:3},
+            {name:'Head Of Household',id:'household',attr:4},
+            {name:'Qualifying widow(er) (QW)',id:'widow',attr:5},
+        ];
+    }
 }
 class User{
     constructor() {
@@ -230,5 +243,10 @@ class User{
             });
         })
 
+    }
+}
+class System{
+    checkOnlineStatus(){
+        return ipcRenderer.sendSync("get-online-status")
     }
 }

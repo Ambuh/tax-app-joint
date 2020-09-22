@@ -7,6 +7,7 @@ const path=require('path');
 const {checkSoftware,selectQuery,updateQuery}= require("../app/library/scripts/database");
 
 let user=null;
+let status=true;
 if(checkSoftware()){
   const server=require('http').createServer(app)
 
@@ -70,7 +71,8 @@ app.on('ready', function () {
   });
   globalShortcut.register('Control+I',function (){
     window.webContents.openDevTools()
-  })
+  });
+
 });
 
 app.on('window-all-closed', function () {
@@ -111,9 +113,20 @@ ipcMain.on('resize-me-please',(ev,args)=>{
   }
 });
 
-ipcMain.on("get-system-user",async function (ev,args) {
-  ev.returnValue=user;
-});
+ipcMain.on("get-system-user",async  (ev) => ev.returnValue=user)
+    .on('get-online-status',async  (ev)=>ev.returnValue=status)
+    .on('web-online-status', (ev,args)=>status=args.status);
+
+
 exports.handleDialog=function (){
 
+}
+exports.getFileFromUser=function () {
+  const files=dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'],title:"Upload Document" });
+
+
+  fs.readFile(files[0], function (err, data) {
+    if (err) throw err;
+    console.log(data);
+  });
 }

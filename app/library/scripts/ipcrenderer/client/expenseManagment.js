@@ -1,8 +1,9 @@
 class ExpenseManagement{
-    constructor() {
+    constructor(value) {
         this.database=database;
         this.Income=new Income(this.database);
         this.General=new General();
+        this.package=value;
     }
     loadExpensesLayout(){
         const current=this;

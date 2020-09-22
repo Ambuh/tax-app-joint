@@ -395,6 +395,7 @@ function packageManager({package,...props}){
             const {ipcRenderer} =require('electron');
             ipcRenderer.send("resize-me-please",{dom:'full'});
             ipcRenderer.send("user-session",{...props});
+
         }
     };
 }

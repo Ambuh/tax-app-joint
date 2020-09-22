@@ -1,8 +1,9 @@
 /* ----START OF INCOME FUNCTIONS //MODULE// */
 class IncomeManagement{
 
-    constructor() {
+    constructor(value) {
        this.General=new General();
+       this.package=value;
     }
     loadIncomeMenu(){
         const cont= objectString();

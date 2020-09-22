@@ -5,7 +5,9 @@ const loadUserProfile=_=>{
     cont.generalTags(" ");
 
     return cont.toString();
-},loadUserProfileMenu=_=>{
+},loadUserProfileMenu=(package)=>{
+    console.log(package)
+
     const cont= new objectString();
 
     cont.generalTags(" ");
